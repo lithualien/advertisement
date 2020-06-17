@@ -1,15 +1,15 @@
 package com.github.lithualien.advertisement.models;
 
-import lombok.Data;
+import lombok.*;
 import javax.persistence.*;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Data
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "users")
+public class User extends BaseEntity {
 
     private String username;
     private String password;
