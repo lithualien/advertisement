@@ -45,8 +45,6 @@
     </build>
 
     <scm>
-        <developerConnection>
-            scm:git:git@github.com:lithualien/advertisement.git
-        </developerConnection>
+        <developerConnection>scm:git:git@github.com:lithualien/advertisement.git</developerConnection>
     </scm>
 </project>
