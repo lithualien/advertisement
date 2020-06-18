@@ -1,11 +1,10 @@
 package com.github.lithualien.advertisement.repositories;
 
 import com.github.lithualien.advertisement.models.User;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends Repository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findById(Long id);
     User findByUsername(String username);
 
 }
