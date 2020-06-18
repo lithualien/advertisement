@@ -1,0 +1,4 @@
+# SERVER CONFIGURATION
+
+server:
+  port: 8000
