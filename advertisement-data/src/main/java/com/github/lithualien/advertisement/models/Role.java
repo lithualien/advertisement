@@ -1,7 +1,15 @@
 package com.github.lithualien.advertisement.models;
 
-import lombok.*;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,16 +23,12 @@ public class Role extends BaseEntity {
 
     private String role;
 
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private Set<User> users = new HashSet<>();
 
     public Role(String role) {
         this.role = role;
-    }
-
-    public void addUser(User user) {
-        user.setRole(this);
-        this.users.add(user);
     }
 
 }

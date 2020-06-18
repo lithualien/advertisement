@@ -31,5 +31,5 @@ build/
 .vscode/
 
 ### application properties exclusion ###
-advertisement-data/src/main/resources/application.yml
-advertisement-web/src/main/resources/application.yml
+advertisement-data/src/main/resources/application.yaml
+advertisement-web/src/main/resources/application.yaml

@@ -1,7 +1,15 @@
 package com.github.lithualien.advertisement.models;
 
-import lombok.*;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Setter
 @Getter
@@ -14,7 +22,8 @@ public class User extends BaseEntity {
     private String username;
     private String password;
 
-    @ManyToOne
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
 }
