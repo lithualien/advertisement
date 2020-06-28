@@ -14,11 +14,6 @@ public class Authority extends BaseEntity implements GrantedAuthority {
 
     private String authority;
 
-    public Authority(Long id, String authority) {
-        super(id);
-        this.authority = authority;
-    }
-
     @Override
     public String getAuthority() {
         return authority;

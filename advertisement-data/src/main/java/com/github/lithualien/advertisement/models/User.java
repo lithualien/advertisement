@@ -1,5 +1,6 @@
 package com.github.lithualien.advertisement.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +37,10 @@ public class User extends BaseEntity implements UserDetails {
             { @JoinColumn(name = "user_id") }, inverseJoinColumns =
             { @JoinColumn(name = "authority_id") })
     private Set<Authority> authorities = new HashSet<>();
+
+    @JsonManagedReference
+    @OneToOne
+    private UserPersonalInformation userPersonalInformation;
 
     public User(String username, String password, Set<Authority> authorities, Boolean accountNonExpired,
                 Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {

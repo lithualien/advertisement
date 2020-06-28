@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<String> getUserToken(AccountCredentialVO accountCredentialVO, String host) {
+    public ResponseEntity<String> userLoginToken(AccountCredentialVO accountCredentialVO, String host) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

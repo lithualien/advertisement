@@ -23,12 +23,14 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
         userService.registerUser(accountCredentialVO);
-        return userService.getUserToken(accountCredentialVO, httpServletRequest.getHeader("host"));
+        return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> logIn(@RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
-        return userService.getUserToken(accountCredentialVO, httpServletRequest.getHeader("host"));
+        return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
+
+
 }
 

@@ -7,6 +7,6 @@ public interface UserService {
 
     void registerUser(AccountCredentialVO accountCredentialVO);
 
-    ResponseEntity<String> getUserToken(AccountCredentialVO accountCredentialVO, String host);
+    ResponseEntity<String> userLoginToken(AccountCredentialVO accountCredentialVO, String host);
 
 }
