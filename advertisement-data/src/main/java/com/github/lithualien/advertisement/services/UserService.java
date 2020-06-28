@@ -1,10 +1,12 @@
 package com.github.lithualien.advertisement.services;
 
-import com.github.lithualien.advertisement.models.User;
-import java.util.Set;
+import com.github.lithualien.advertisement.vo.v1.AccountCredentialVO;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    Set<User> findAll();
+    void registerUser(AccountCredentialVO accountCredentialVO);
+
+    ResponseEntity<String> getUserToken(AccountCredentialVO accountCredentialVO, String host);
 
 }
