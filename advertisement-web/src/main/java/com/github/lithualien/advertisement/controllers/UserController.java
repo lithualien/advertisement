@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("api/user/v1")
+@RequestMapping("api/users/v1")
 public class UserController {
 
     private final UserService userService;

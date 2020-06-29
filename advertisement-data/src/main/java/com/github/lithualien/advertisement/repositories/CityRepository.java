@@ -9,7 +9,4 @@ public interface CityRepository extends CrudRepository<City, Long> {
     @Query("select city from City city where city.city = :city")
     City findByCity(String city);
 
-    @Query("select city from City city where city = :city")
-    City getCity(City city);
-
 }

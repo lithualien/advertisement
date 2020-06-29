@@ -8,6 +8,4 @@ import java.util.Set;
 public interface CityService {
     Set<CityVO> findAll();
 
-    Set<City> findAllCity();
-
 }

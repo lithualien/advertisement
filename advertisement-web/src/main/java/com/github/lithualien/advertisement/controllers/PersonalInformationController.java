@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/user/information/v1")
+@RequestMapping("api/users/information/v1")
 public class PersonalInformationController {
 
     private final UserPersonalInformationService userPersonalInformationService;

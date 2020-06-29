@@ -29,12 +29,4 @@ public class CityServiceImpl implements CityService {
                 .stream(cityRepository.findAll().spliterator(), false)
                 .collect(Collectors.toSet()), CityVO.class);
     }
-
-    @Override
-    public Set<City> findAllCity() {
-        return StreamSupport
-                .stream(cityRepository.findAll().spliterator(), false)
-                .collect(Collectors.toSet());
-
-    }
 }

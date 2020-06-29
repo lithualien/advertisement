@@ -19,14 +19,9 @@ public class CityController {
         this.cityService = cityService;
     }
 
-    @GetMapping("/city/vo")
+    @GetMapping
     public Set<CityVO> getCitiesVO() {
         return cityService.findAll();
-    }
-
-    @GetMapping("/city")
-    public Set<City> getCities() {
-        return cityService.findAllCity();
     }
 
 }
