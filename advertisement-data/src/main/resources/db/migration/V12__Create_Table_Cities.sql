@@ -9,4 +9,8 @@ CREATE TABLE `cities` (
     FOREIGN KEY (`county_id`)
     REFERENCES `counties` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION
+    )
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

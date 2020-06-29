@@ -2,4 +2,8 @@ DROP TABLE IF EXISTS counties;
 CREATE TABLE `counties` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `county` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`)
+  )
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

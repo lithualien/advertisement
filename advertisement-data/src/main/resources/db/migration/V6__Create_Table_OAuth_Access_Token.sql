@@ -7,4 +7,7 @@ CREATE TABLE oauth_access_token (
   client_id VARCHAR(255),
   authentication LONG VARBINARY,
   refresh_token VARCHAR(255)
-);
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

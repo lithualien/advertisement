@@ -6,4 +6,7 @@ CREATE TABLE oauth_approvals (
     status VARCHAR(10),
     expiresAt TIMESTAMP,
     lastModifiedAt TIMESTAMP
-);
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

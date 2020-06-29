@@ -5,4 +5,7 @@ CREATE TABLE IF NOT EXISTS `user_authorities` (
   KEY `fk_user_authority` (`authority_id`),
   CONSTRAINT `fk_user_authorities_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_user_authorities_authority` FOREIGN KEY (`authority_id`) REFERENCES `authorities` (`id`)
-) ENGINE=InnoDB;
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

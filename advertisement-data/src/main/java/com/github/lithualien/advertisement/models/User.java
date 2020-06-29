@@ -39,8 +39,8 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Authority> authorities = new HashSet<>();
 
     @JsonManagedReference
-    @OneToOne
-    private UserPersonalInformation userPersonalInformation;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<UserPersonalInformation> userPersonalInformation = new HashSet<>();
 
     public User(String username, String password, Set<Authority> authorities, Boolean accountNonExpired,
                 Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {

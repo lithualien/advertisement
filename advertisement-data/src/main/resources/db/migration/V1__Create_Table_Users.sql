@@ -8,4 +8,7 @@
   `enabled` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_user_name` (`user_name`)
-) ENGINE=InnoDB;
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_lithuanian_ci;

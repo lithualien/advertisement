@@ -6,11 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dozer.Mapping;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -29,11 +27,11 @@ public class UserPersonalInformation extends BaseEntity {
     private String number;
 
     @JsonManagedReference
-    @OneToOne
+    @ManyToOne
     private City city;
 
     @JsonBackReference
-    @OneToOne
+    @ManyToOne
     private User user;
 
 }
