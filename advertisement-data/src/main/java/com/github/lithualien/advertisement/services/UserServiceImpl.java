@@ -1,6 +1,7 @@
 package com.github.lithualien.advertisement.services;
 
 import com.github.lithualien.advertisement.converters.AccountCredentialAndUserConverter;
+import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.repositories.AuthorityRepository;
 import com.github.lithualien.advertisement.repositories.UserRepository;
 import com.github.lithualien.advertisement.vo.v1.AccountCredentialVO;
@@ -42,6 +43,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void registerUser(AccountCredentialVO accountCredentialVO) {
+        if(userRepository.existsByUsername(accountCredentialVO.getUsername())) {
+            throw new ResourceAlreadyExistsException("User is already registered.");
+        }
+
         User user = AccountCredentialAndUserConverter.credentialsToUser(accountCredentialVO, authorityRepository);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);

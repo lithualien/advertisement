@@ -9,4 +9,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("select user from User user where user.username = :username")
     User findUserByUsername(String username);
 
+    Boolean existsByUsername(String username);
+
 }
