@@ -42,8 +42,11 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
             throw new ResourceAlreadyExistsException("User has already added personal information.");
         }
 
+        userPersonalInformationVO.setId(null);
+
         UserPersonalInformation userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter
                 .userPersonalInformationVOToEntity(userPersonalInformationVO, cityRepository, user));
+
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
 
