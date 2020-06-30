@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `user_authorities`;
 CREATE TABLE IF NOT EXISTS `user_authorities` (
   `user_id` bigint NOT NULL,
   `authority_id` bigint NOT NULL,

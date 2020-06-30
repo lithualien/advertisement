@@ -1,0 +1,24 @@
+# SERVER CONFIGURATION
+management.endpoints.web.exposure.include=*
+server.port=5000
+spring.jackson.serialization.FAIL_ON_EMPTY_BEANS=false
+
+# DATABASE CONFIGURATION
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+logging.level.org.hibernate.SQL=debug
+
+# FLYWAY CONFIGURATION
+
+spring.flyway.url=
+spring.flyway.schemas=
+spring.flyway.user=
+spring.flyway.password=
+
+#CUSTOM PROPERTIES
+
+basic.auth.code=Basic YWR2X2FwcDoxMjM0NTY3ODk=

@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS `authorities` (
+DROP TABLE IF EXISTS `authorities`;
+CREATE TABLE `authorities` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `authority` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)

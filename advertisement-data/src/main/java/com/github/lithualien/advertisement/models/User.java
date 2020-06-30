@@ -18,7 +18,6 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(name = "user_name")
     private String username;
 
     private String password;

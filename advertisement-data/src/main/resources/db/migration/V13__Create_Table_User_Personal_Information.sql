@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS `user_personal_information`;
 CREATE TABLE `user_personal_information` (
-      `id` BIGINT NOT NULL,
-      `last_name` VARCHAR(255) NULL,
+      `id` BIGINT NOT NULL AUTO_INCREMENT,
       `email` VARCHAR(255) NULL,
       `number` VARCHAR(255) NULL,
       `city_id` BIGINT NULL,
