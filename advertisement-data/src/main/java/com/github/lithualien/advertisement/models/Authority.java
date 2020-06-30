@@ -2,7 +2,9 @@ package com.github.lithualien.advertisement.models;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Setter
 @Getter
@@ -18,4 +20,5 @@ public class Authority extends BaseEntity implements GrantedAuthority {
     public String getAuthority() {
         return authority;
     }
+
 }

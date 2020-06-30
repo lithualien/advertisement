@@ -5,11 +5,17 @@ import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Set;
+import java.util.Optional;
 
 public interface UserPersonalInformationRepository extends CrudRepository<UserPersonalInformation, Long> {
 
     @Query("select personalInformation from UserPersonalInformation personalInformation where personalInformation.user = :user")
-    UserPersonalInformation findByUser(User user);
+    Optional<UserPersonalInformation> findByUser(User user);
+
+    @Query("select case when count (personalInformation) > 0 then true else false end " +
+            "from UserPersonalInformation personalInformation where personalInformation.user = :user ")
+    Boolean findIfPersonalInformationExistsByUser(User user);
+
+
 
 }

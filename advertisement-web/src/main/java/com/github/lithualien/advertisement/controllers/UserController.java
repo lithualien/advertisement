@@ -31,6 +31,5 @@ public class UserController {
         return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
 
-
 }
 

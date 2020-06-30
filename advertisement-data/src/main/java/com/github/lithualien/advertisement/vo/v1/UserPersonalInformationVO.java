@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dozer.Mapping;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,7 +22,12 @@ public class UserPersonalInformationVO implements Serializable {
 
     private String email;
     private String number;
-    private CityVO city;
+
+    @Mapping("this")
+    private String city;
+
+    @Mapping("this")
+    private String county;
 
     @Override
     public boolean equals(Object o) {

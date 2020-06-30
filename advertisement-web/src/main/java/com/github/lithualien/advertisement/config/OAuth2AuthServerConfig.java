@@ -39,7 +39,7 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
                 .secret(bCryptPasswordEncoder.encode("123456789"))
                 .scopes("read","write")
                 .authorizedGrantTypes("password","refresh_token")
-                .accessTokenValiditySeconds(3600)
+                .accessTokenValiditySeconds(2592000)
                 .refreshTokenValiditySeconds(2592000);
     }
 

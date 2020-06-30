@@ -1,5 +1,7 @@
 package com.github.lithualien.advertisement.exceptions.handler;
 
+import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
+import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.ExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -16,14 +18,19 @@ import java.time.LocalDateTime;
 @RestController
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> handleGlobalExceptions(Exception exception, WebRequest webRequest) {
+    @ExceptionHandler( { Exception.class } )
+    public final ResponseEntity<ExceptionResponse> handleInternalServerErrorExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), webRequest.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> handleResourceNotFoundExceptions(Exception exception, WebRequest webRequest) {
+    @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class } )
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), webRequest.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler( {NotContentCreatorException.class} )
+    public final ResponseEntity<ExceptionResponse> handleUnauthorizedExceptions(Exception exception, WebRequest webRequest) {
+        return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), webRequest.getDescription(false)), HttpStatus.UNAUTHORIZED);
     }
 
     private ExceptionResponse getExceptionResponse(String message, String description) {

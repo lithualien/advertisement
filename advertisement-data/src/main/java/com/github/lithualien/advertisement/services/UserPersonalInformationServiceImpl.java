@@ -1,7 +1,9 @@
 package com.github.lithualien.advertisement.services;
 
-import com.github.lithualien.advertisement.converters.DozerConverter;
-import com.github.lithualien.advertisement.models.City;
+import com.github.lithualien.advertisement.converters.UserPersonalInformationConverter;
+import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
+import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
+import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import com.github.lithualien.advertisement.repositories.CityRepository;
@@ -26,18 +28,56 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
     @Override
     public UserPersonalInformationVO getUserPersonalInformation(String username) {
         User user = userRepository.findUserByUsername(username);
-        UserPersonalInformation userPersonalInformation = userPersonalInformationRepository.findByUser(user);
-        return DozerConverter.parseObject(userPersonalInformation, UserPersonalInformationVO.class);
+
+        UserPersonalInformation userPersonalInformation = getUserPersonalInformation(user);
+
+        return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
 
     @Override
     public UserPersonalInformationVO save(UserPersonalInformationVO userPersonalInformationVO, String username) {
-        UserPersonalInformation userPersonalInformation = DozerConverter.parseObject(
-                userPersonalInformationVO, UserPersonalInformation.class
-        );
-        userPersonalInformation.setUser(userRepository.findUserByUsername(username));
-        userPersonalInformation.setCity(cityRepository.findByCity(userPersonalInformationVO.getCity().getCity()));
-        userPersonalInformationRepository.save(userPersonalInformation);
-        return userPersonalInformationVO;
+        User user = userRepository.findUserByUsername(username);
+
+        if(userPersonalInformationRepository.findIfPersonalInformationExistsByUser(user)) {
+            throw new ResourceAlreadyExistsException("User has already added personal information.");
+        }
+
+        UserPersonalInformation userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter
+                .userPersonalInformationVOToEntity(userPersonalInformationVO, cityRepository, user));
+        return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
+
+    @Override
+    public UserPersonalInformationVO update(UserPersonalInformationVO userPersonalInformationVO, String username) {
+        UserPersonalInformation userPersonalInformation = userPersonalInformationRepository
+                .findById(userPersonalInformationVO.getId())
+                .<ResourceNotFoundException>orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User personal information was not found.");
+                });
+
+        if(!username.equals(userPersonalInformation.getUser().getUsername())) {
+            throw new NotContentCreatorException("Insufficient permissions.");
+        }
+        User user = userPersonalInformation.getUser();
+
+        userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter.userPersonalInformationVOToEntity(userPersonalInformationVO,
+                cityRepository, user));
+
+        return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
+    }
+
+    @Override
+    public void delete(UserPersonalInformationVO userPersonalInformationVO) {
+//        userPersonalInformationRepository.delete();
+    }
+
+    private UserPersonalInformation getUserPersonalInformation(User user) {
+        return userPersonalInformationRepository
+                .findByUser(user)
+                .<ResourceNotFoundException>orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User has not added personal information.");
+                });
+    }
+
+
 }
