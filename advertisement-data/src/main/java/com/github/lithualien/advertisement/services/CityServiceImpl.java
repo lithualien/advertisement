@@ -50,7 +50,13 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityWithCountyVO update(CityWithCountyVO cityWithCounty) {
-        City city = CityConverter.cityWithCityVOToCity(cityWithCounty, getCounty(cityWithCounty.getCounty()));
+        County county = getCounty(cityWithCounty.getCounty());
+        City city = CityConverter.cityWithCityVOToCity(cityWithCounty, county);
+
+        if(cityRepository.findIfCityExists(city.getCity(), county)) {
+            throw new ResourceAlreadyExistsException("City with the same county already exists.");
+        }
+
         return CityConverter.cityToCityWithVO(cityRepository.save(city));
     }
 
