@@ -1,12 +1,9 @@
 package com.github.lithualien.advertisement.controllers;
 
-import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/users/information/v1")
@@ -36,9 +33,9 @@ public class PersonalInformationController {
     }
 
 
-    @DeleteMapping
-    public void deleteUserPersonalInformation(@RequestBody UserPersonalInformationVO userPersonalInformationVO) {
-        userPersonalInformationService.delete(userPersonalInformationVO);
+    @DeleteMapping("/{id}")
+    public void deleteUserPersonalInformation(@PathVariable("id") Long id) {
+        userPersonalInformationService.delete(id);
     }
 
 }

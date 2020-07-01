@@ -10,5 +10,5 @@ public interface UserPersonalInformationService {
 
     UserPersonalInformationVO update(UserPersonalInformationVO userPersonalInformationVO, String username);
 
-    void delete(UserPersonalInformationVO userPersonalInformationVO);
+    void delete(Long id);
 }

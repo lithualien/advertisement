@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountCredentialVO implements Serializable {
+public class CityWithCountyVO extends CityVO {
 
-    private String username;
-    private String password;
+    private String county;
+
+    public CityWithCountyVO(Long id, String city, String county) {
+        super(id, city);
+        this.county = county;
+    }
 
 }

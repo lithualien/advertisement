@@ -1,6 +1,5 @@
 package com.github.lithualien.advertisement.config;
 
-import io.micrometer.core.ipc.http.HttpSender;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +21,8 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .and()
                 .authorizeRequests()
                 .antMatchers("/webjars/**", "/v2/**", "/swagger-ui.html**", "/swagger-resources/**", "/api/users/v1/register", "/api/users/v1/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/cities/v1").hasAnyAuthority("ADMIN", "MANAGER")
+                .antMatchers(HttpMethod.PUT,"/api/cities/v1").hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers(HttpMethod.GET, "/api/users/information/v1").hasAnyAuthority("ADMIN", "MANAGER", "USER")
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ADMIN", "MANAGER", "USER")

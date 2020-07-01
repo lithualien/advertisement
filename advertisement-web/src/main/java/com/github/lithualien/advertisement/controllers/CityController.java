@@ -1,11 +1,9 @@
 package com.github.lithualien.advertisement.controllers;
 
-import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.services.CityService;
 import com.github.lithualien.advertisement.vo.v1.CityVO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.lithualien.advertisement.vo.v1.CityWithCountyVO;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -22,6 +20,21 @@ public class CityController {
     @GetMapping
     public Set<CityVO> getCitiesVO() {
         return cityService.findAll();
+    }
+
+    @PostMapping
+    public CityWithCountyVO save(@RequestBody CityWithCountyVO cityWithCountyVO) {
+        return cityService.save(cityWithCountyVO);
+    }
+
+    @PutMapping
+    public CityWithCountyVO update(@RequestBody CityWithCountyVO cityWithCountyVO) {
+        return cityService.update(cityWithCountyVO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        cityService.delete(id);
     }
 
 }

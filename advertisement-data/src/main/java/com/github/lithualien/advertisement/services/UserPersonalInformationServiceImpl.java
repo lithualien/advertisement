@@ -70,8 +70,13 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
     }
 
     @Override
-    public void delete(UserPersonalInformationVO userPersonalInformationVO) {
-//        userPersonalInformationRepository.delete();
+    public void delete(Long id) {
+        UserPersonalInformation userPersonalInformation = userPersonalInformationRepository
+                .findById(id)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User personal information with id=" + id + " was not found.");
+                });
+        userPersonalInformationRepository.delete(userPersonalInformation);
     }
 
     private UserPersonalInformation getUserPersonalInformation(User user) {

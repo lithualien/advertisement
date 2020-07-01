@@ -1,6 +1,7 @@
 package com.github.lithualien.advertisement.services;
 
 import com.github.lithualien.advertisement.converters.DozerConverter;
+import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.County;
 import com.github.lithualien.advertisement.repositories.CountyRepository;
 import com.github.lithualien.advertisement.vo.v1.CountyVO;
@@ -32,6 +33,11 @@ public class CountyServiceImpl implements CountyService {
         Set<County> counties = StreamSupport
                 .stream(countyRepository.findByCounty(county).spliterator(), false)
                 .collect(Collectors.toSet());
+
+        if(counties.isEmpty()) {
+            throw new ResourceNotFoundException("Specified county does not exist.");
+        }
+
         return DozerConverter.parseSet(counties, CountyVO.class);
     }
 }
