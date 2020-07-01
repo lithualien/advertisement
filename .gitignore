@@ -32,3 +32,5 @@ build/
 
 ### application properties exclusion ###
 application.properties
+pom.xml.releaseBackup
+release.properties
