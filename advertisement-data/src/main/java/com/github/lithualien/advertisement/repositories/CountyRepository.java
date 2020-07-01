@@ -12,4 +12,8 @@ public interface CountyRepository extends CrudRepository<County, Long> {
 
     @Query("select county from County county where county.county = :county")
     Optional<County> findByName(String county);
+
+    @Query("select case when count(county) > 0 then true else false end " +
+            "from County county where county.county = :county")
+    Boolean findIfExists(String county);
 }

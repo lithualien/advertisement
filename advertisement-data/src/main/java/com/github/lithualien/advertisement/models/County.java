@@ -22,6 +22,11 @@ public class County extends BaseEntity {
 
     private String county;
 
+    public County(Long id, String county) {
+        super(id);
+        this.county = county;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
     private Set<City> cities = new HashSet<>();
 

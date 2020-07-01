@@ -20,7 +20,7 @@ public class City extends BaseEntity {
 
     private String city;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private County county;
 
     public City(Long id, String city, County county) {
