@@ -3,7 +3,7 @@
     <parent>
         <artifactId>advertisement</artifactId>
         <groupId>com.github.lithualien</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.github.lithualien</groupId>
             <artifactId>advertisement-data</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
