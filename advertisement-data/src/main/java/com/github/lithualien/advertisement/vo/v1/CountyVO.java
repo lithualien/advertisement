@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,4 +17,5 @@ public class CountyVO implements Serializable {
 
     private Long id;
     private String county;
+    private Set<CityVO> cities = new HashSet<>();
 }

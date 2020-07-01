@@ -20,7 +20,6 @@ public class County extends BaseEntity {
 
     private String county;
 
-    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
     private Set<City> cities = new HashSet<>();
 

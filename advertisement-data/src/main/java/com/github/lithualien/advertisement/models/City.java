@@ -18,7 +18,6 @@ public class City extends BaseEntity {
 
     private String city;
 
-    @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     private County county;
 

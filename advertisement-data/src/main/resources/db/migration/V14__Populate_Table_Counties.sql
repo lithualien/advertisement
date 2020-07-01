@@ -1,0 +1,10 @@
+INSERT INTO `counties` (`county`) VALUES ('Klaipėdos apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Telšių apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Tauragės apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Marijampolės apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Alytaus apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Kauno apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Vilniaus apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Šiaulių apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Panevėžio apskritis');
+INSERT INTO `counties` (`county`) VALUES ('Utenos apskritis');

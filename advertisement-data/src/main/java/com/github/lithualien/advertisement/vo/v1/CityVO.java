@@ -15,5 +15,4 @@ public class CityVO implements Serializable {
 
     private Long id;
     private String city;
-    private CountyVO county;
 }

@@ -1,0 +1,10 @@
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Klaipėda', 1);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Telšiai', 2);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Tauragė', 3);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Marijampolė', 4);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Alytus', 5);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Kaunas', 6);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Vilnius', 7);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Šiauliai', 8);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Panevėžys', 9);
+INSERT INTO `cities` (`city`,`county_id`) VALUES ('Utena', 10);
