@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services;
 
 import com.github.lithualien.advertisement.converters.CityConverter;
 import com.github.lithualien.advertisement.converters.DozerConverter;
+import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.County;
@@ -35,8 +36,15 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityWithCountyVO save(CityWithCountyVO cityWithCounty) {
-        City city = CityConverter.cityWithCityVOToCity(cityWithCounty, getCounty(cityWithCounty.getCounty()));
+        County county = getCounty(cityWithCounty.getCounty());
+
+        City city = CityConverter.cityWithCityVOToCity(cityWithCounty, county);
         city.setId(null);
+
+        if(cityRepository.findIfCityExists(city.getCity(), county)) {
+            throw new ResourceAlreadyExistsException("City with the same county already exists.");
+        }
+
         return CityConverter.cityToCityWithVO(cityRepository.save(city));
     }
 
