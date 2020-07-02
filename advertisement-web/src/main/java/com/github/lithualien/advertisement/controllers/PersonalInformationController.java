@@ -5,6 +5,8 @@ import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("api/users/information/v1")
 public class PersonalInformationController {
@@ -21,13 +23,13 @@ public class PersonalInformationController {
     }
 
     @PostMapping
-    public UserPersonalInformationVO saveUserPersonalInformation(@RequestBody UserPersonalInformationVO userPersonalInformationVO,
+    public UserPersonalInformationVO saveUserPersonalInformation(@Valid @RequestBody UserPersonalInformationVO userPersonalInformationVO,
                                                                  Authentication authentication) {
         return userPersonalInformationService.save(userPersonalInformationVO, authentication.getName());
     }
 
     @PutMapping
-    public UserPersonalInformationVO updateUserPersonalInformation(@RequestBody UserPersonalInformationVO userPersonalInformationVO,
+    public UserPersonalInformationVO updateUserPersonalInformation(@Valid @RequestBody UserPersonalInformationVO userPersonalInformationVO,
                                                                    Authentication authentication) {
         return userPersonalInformationService.update(userPersonalInformationVO, authentication.getName());
     }

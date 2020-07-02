@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,15 +19,22 @@ import java.util.Objects;
 public class UserPersonalInformationVO implements Serializable {
 
     private Long id;
+
+    @NotBlank(message = "Name field is required")
     private String name;
 
+    @NotBlank(message = "Email field is required")
     private String email;
+
+    @NotBlank(message = "Number field is required")
     private String number;
 
     @Mapping("this")
+    @NotBlank(message = "City field is required")
     private String city;
 
     @Mapping("this")
+    @NotBlank(message = "County field is required")
     private String county;
 
     @Override
