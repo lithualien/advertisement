@@ -11,7 +11,7 @@ CREATE TABLE `user_personal_information` (
       INDEX `fk_user_personal_information_users_id_idx` (`user_id` ASC),
       CONSTRAINT `fk_user_personal_information_cities_id`
         FOREIGN KEY (`city_id`)
-        REFERENCES `counties` (`id`)
+        REFERENCES `cities` (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
       CONSTRAINT `fk_user_personal_information_users_id`

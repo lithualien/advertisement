@@ -4,9 +4,12 @@ import com.github.lithualien.advertisement.converters.UserPersonalInformationCon
 import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
+import com.github.lithualien.advertisement.models.City;
+import com.github.lithualien.advertisement.models.County;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import com.github.lithualien.advertisement.repositories.CityRepository;
+import com.github.lithualien.advertisement.repositories.CountyRepository;
 import com.github.lithualien.advertisement.repositories.UserPersonalInformationRepository;
 import com.github.lithualien.advertisement.repositories.UserRepository;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
@@ -18,11 +21,13 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
     private final UserPersonalInformationRepository userPersonalInformationRepository;
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
+    private final CountyRepository countyRepository;
 
-    public UserPersonalInformationServiceImpl(UserPersonalInformationRepository userPersonalInformationRepository, UserRepository userRepository, CityRepository cityRepository) {
+    public UserPersonalInformationServiceImpl(UserPersonalInformationRepository userPersonalInformationRepository, UserRepository userRepository, CityRepository cityRepository, CountyRepository countyRepository) {
         this.userPersonalInformationRepository = userPersonalInformationRepository;
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
+        this.countyRepository = countyRepository;
     }
 
     @Override
@@ -34,6 +39,8 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
 
+    // TODO a bit messy atm, will have to refactor to more readable and reusable code.
+
     @Override
     public UserPersonalInformationVO save(UserPersonalInformationVO userPersonalInformationVO, String username) {
         User user = userRepository.findUserByUsername(username);
@@ -42,13 +49,27 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
             throw new ResourceAlreadyExistsException("User has already added personal information.");
         }
 
+        County county = countyRepository
+                .findByName(userPersonalInformationVO.getCounty())
+                .<ResourceNotFoundException>orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Specified county was not found.");
+                });
+
+        City city = cityRepository
+                .findByCityAndCounty(userPersonalInformationVO.getCity(), county)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("Specified city in county was not found.");
+                });
+
         userPersonalInformationVO.setId(null);
 
         UserPersonalInformation userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter
-                .userPersonalInformationVOToEntity(userPersonalInformationVO, cityRepository, user));
+                .userPersonalInformationVOToEntity(userPersonalInformationVO, city, user));
 
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
+
+    // TODO a bit messy atm, will have to refactor to more readable and reusable code.
 
     @Override
     public UserPersonalInformationVO update(UserPersonalInformationVO userPersonalInformationVO, String username) {
@@ -63,8 +84,8 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
         }
         User user = userPersonalInformation.getUser();
 
-        userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter.userPersonalInformationVOToEntity(userPersonalInformationVO,
-                cityRepository, user));
+//        userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter.userPersonalInformationVOToEntity(userPersonalInformationVO,
+//                cityRepository, user));
 
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
