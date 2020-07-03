@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/users/v1")
@@ -21,13 +22,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> register(@Valid @RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
         userService.registerUser(accountCredentialVO);
         return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> logIn(@RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> logIn(@Valid @RequestBody AccountCredentialVO accountCredentialVO, HttpServletRequest httpServletRequest) {
         return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
 

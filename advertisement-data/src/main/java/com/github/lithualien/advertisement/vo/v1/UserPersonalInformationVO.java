@@ -20,21 +20,21 @@ public class UserPersonalInformationVO implements Serializable {
 
     private Long id;
 
-    @NotBlank(message = "Name field is required")
+    @NotBlank(message = "name field is required")
     private String name;
 
-    @NotBlank(message = "Email field is required")
+    @NotBlank(message = "email field is required")
     private String email;
 
-    @NotBlank(message = "Number field is required")
+    @NotBlank(message = "number field is required")
     private String number;
 
     @Mapping("this")
-    @NotBlank(message = "City field is required")
+    @NotBlank(message = "city field is required")
     private String city;
 
     @Mapping("this")
-    @NotBlank(message = "County field is required")
+    @NotBlank(message = "county field is required")
     private String county;
 
     @Override

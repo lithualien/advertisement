@@ -5,6 +5,7 @@ import com.github.lithualien.advertisement.vo.v1.CountySetVO;
 import com.github.lithualien.advertisement.vo.v1.CountyVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -28,7 +29,7 @@ public class CountyController {
     }
 
     @PutMapping
-    public CountyVO update(@RequestBody CountyVO countyVO) {
+    public CountyVO update(@Valid @RequestBody CountyVO countyVO) {
         return countyService.update(countyVO);
     }
 
