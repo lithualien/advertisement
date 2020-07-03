@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 webRequest.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class } )
+    @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class, ConstraintViolationException.class } )
     public final ResponseEntity<ExceptionVO> handleBadRequestExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), HttpStatus.BAD_REQUEST.value(),
                 webRequest.getDescription(false)), HttpStatus.BAD_REQUEST);
