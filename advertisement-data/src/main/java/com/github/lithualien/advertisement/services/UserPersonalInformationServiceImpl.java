@@ -34,12 +34,10 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
     public UserPersonalInformationVO getUserPersonalInformation(String username) {
         User user = userRepository.findUserByUsername(username);
 
-        UserPersonalInformation userPersonalInformation = getUserPersonalInformation(user);
+        UserPersonalInformation userPersonalInformation = getUserPersonalInformationByUser(user);
 
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
-
-    // TODO a bit messy atm, will have to refactor to more readable and reusable code.
 
     @Override
     public UserPersonalInformationVO save(UserPersonalInformationVO userPersonalInformationVO, String username) {
@@ -49,17 +47,9 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
             throw new ResourceAlreadyExistsException("User has already added personal information.");
         }
 
-        County county = countyRepository
-                .findByName(userPersonalInformationVO.getCounty())
-                .<ResourceNotFoundException>orElseThrow(() -> {
-                    throw new ResourceNotFoundException("Specified county was not found.");
-                });
+        County county = getCounty(userPersonalInformationVO.getCounty());
 
-        City city = cityRepository
-                .findByCityAndCounty(userPersonalInformationVO.getCity(), county)
-                .<ResourceNotFoundException> orElseThrow( () -> {
-                    throw new ResourceNotFoundException("Specified city in county was not found.");
-                });
+        City city = getCity(userPersonalInformationVO.getCity(), county);
 
         userPersonalInformationVO.setId(null);
 
@@ -69,23 +59,22 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
 
-    // TODO a bit messy atm, will have to refactor to more readable and reusable code.
-
     @Override
     public UserPersonalInformationVO update(UserPersonalInformationVO userPersonalInformationVO, String username) {
-        UserPersonalInformation userPersonalInformation = userPersonalInformationRepository
-                .findById(userPersonalInformationVO.getId())
-                .<ResourceNotFoundException>orElseThrow( () -> {
-                    throw new ResourceNotFoundException("User personal information was not found.");
-                });
+        UserPersonalInformation userPersonalInformation = getUserPersonalInformationById(userPersonalInformationVO.getId());
 
         if(!username.equals(userPersonalInformation.getUser().getUsername())) {
             throw new NotContentCreatorException("Insufficient permissions.");
         }
+
+        County county = getCounty(userPersonalInformationVO.getCounty());
+
+        City city = getCity(userPersonalInformationVO.getCity(), county);
+
         User user = userPersonalInformation.getUser();
 
-//        userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter.userPersonalInformationVOToEntity(userPersonalInformationVO,
-//                cityRepository, user));
+        userPersonalInformation = userPersonalInformationRepository.save(UserPersonalInformationConverter.userPersonalInformationVOToEntity(userPersonalInformationVO,
+                city, user));
 
         return UserPersonalInformationConverter.userPersonalInformationToVO(userPersonalInformation);
     }
@@ -100,7 +89,7 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
         userPersonalInformationRepository.delete(userPersonalInformation);
     }
 
-    private UserPersonalInformation getUserPersonalInformation(User user) {
+    private UserPersonalInformation getUserPersonalInformationByUser(User user) {
         return userPersonalInformationRepository
                 .findByUser(user)
                 .<ResourceNotFoundException>orElseThrow( () -> {
@@ -108,5 +97,28 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
                 });
     }
 
+    private County getCounty(String county) {
+        return countyRepository
+                .findByName(county)
+                .<ResourceNotFoundException>orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Specified county was not found.");
+                });
+    }
+
+    private City getCity(String city, County county) {
+        return cityRepository
+                .findByCityAndCounty(city, county)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("Specified city in county was not found.");
+                });
+    }
+
+    private UserPersonalInformation getUserPersonalInformationById(Long id) {
+        return userPersonalInformationRepository
+                .findById(id)
+                .<ResourceNotFoundException>orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User personal information was not found.");
+                });
+    }
 
 }
