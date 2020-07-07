@@ -17,7 +17,8 @@ public class CityWithCountyVO extends CityVO {
     private String county;
 
     public CityWithCountyVO(Long id, String city, String county) {
-        super(id, city);
+        this.setId(id);
+        this.setCity(city);
         this.county = county;
     }
 

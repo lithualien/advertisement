@@ -12,9 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubCategoryVO {
-
-    private Long id;
+public class SubCategoryVO extends BaseVO {
 
     @JsonProperty("sub_category")
     @NotBlank(message = "sub_category field is required")

@@ -10,9 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryVO {
-
-    private Long id;
+public class CategoryVO extends BaseVO {
 
     @NotBlank(message = "category field is required")
     private String category;
