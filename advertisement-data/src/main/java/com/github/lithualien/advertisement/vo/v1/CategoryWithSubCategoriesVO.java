@@ -16,6 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryWithSubCategoriesVO extends Category {
 
-    private Set<SubCategory> subCategories = new HashSet<>();
+    private Set<SubCategoryVO> subCategories = new HashSet<>();
 
 }
