@@ -1,0 +1,20 @@
+package com.github.lithualien.advertisement.vo.v1;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import javax.validation.constraints.NotBlank;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoryVO {
+
+    private Long id;
+
+    @NotBlank(message = "category field is required")
+    private String category;
+
+}
