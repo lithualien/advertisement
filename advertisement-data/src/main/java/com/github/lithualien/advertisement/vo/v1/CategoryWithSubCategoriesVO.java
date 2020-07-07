@@ -1,7 +1,6 @@
 package com.github.lithualien.advertisement.vo.v1;
 
 import com.github.lithualien.advertisement.models.Category;
-import com.github.lithualien.advertisement.models.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryWithSubCategoriesVO extends Category {
 
-    private Set<SubCategory> subCategories = new HashSet<>();
+    private Set<SubCategoryVO> subCategories = new HashSet<>();
 
 }
