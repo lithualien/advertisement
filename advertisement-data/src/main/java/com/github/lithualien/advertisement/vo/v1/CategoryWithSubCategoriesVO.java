@@ -1,6 +1,6 @@
 package com.github.lithualien.advertisement.vo.v1;
 
-import com.github.lithualien.advertisement.models.Category;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +13,9 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryWithSubCategoriesVO extends Category {
+public class CategoryWithSubCategoriesVO extends CategoryVO {
 
+    @JsonProperty("sub_categories")
     private Set<SubCategoryVO> subCategories = new HashSet<>();
 
 }
