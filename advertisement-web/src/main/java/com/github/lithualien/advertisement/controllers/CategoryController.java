@@ -26,9 +26,14 @@ public class CategoryController {
         return categoryService.all();
     }
 
-    @GetMapping("/{category}")
-    public CategoryWithSubCategoriesVO findByName(@PathVariable("category") String category) {
+    @GetMapping("/category")
+    public CategoryWithSubCategoriesVO findByName(@RequestParam String category) {
         return categoryService.findByCategory(category);
+    }
+
+    @PostMapping
+    public CategoryVO save(@Valid @RequestBody CategoryVO categoryVO) {
+        return categoryService.save(categoryVO);
     }
 
     @PutMapping
@@ -37,7 +42,7 @@ public class CategoryController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") @Min(1) Long id) {
         categoryService.delete(id);
     }
