@@ -18,4 +18,6 @@ public class SubCategoryVO extends BaseVO {
     @NotBlank(message = "sub_category field is required")
     private String subCategory;
 
+    @NotBlank(message = "category field is required")
+    private String category;
 }
