@@ -1,20 +1,19 @@
 package com.github.lithualien.advertisement.vo.v1;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dozer.Mapping;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubCategoryVO extends BaseVO {
+public class SubCategoryWithCategoryVO extends SubCategoryVO {
 
-    @JsonProperty("sub_category")
-    @NotBlank(message = "sub_category field is required")
-    private String subCategory;
+    @Mapping("this")
+    @NotBlank(message = "category field is required")
+    private String category;
 }
