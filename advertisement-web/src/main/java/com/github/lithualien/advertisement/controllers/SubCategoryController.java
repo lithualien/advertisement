@@ -1,7 +1,7 @@
 package com.github.lithualien.advertisement.controllers;
 
 import com.github.lithualien.advertisement.services.SubCategoryService;
-import com.github.lithualien.advertisement.vo.v1.SubCategoryVO;
+import com.github.lithualien.advertisement.vo.v1.SubCategoryWithCategoryVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +21,13 @@ public class SubCategoryController {
     }
 
     @PostMapping
-    public SubCategoryVO save(@Valid @RequestBody SubCategoryVO subCategoryVO) {
-        return subCategoryService.save(subCategoryVO);
+    public SubCategoryWithCategoryVO save(@Valid @RequestBody SubCategoryWithCategoryVO subCategoryWithCategoryVO) {
+        return subCategoryService.save(subCategoryWithCategoryVO);
     }
 
     @PutMapping
-    public SubCategoryVO update(@Valid @RequestBody SubCategoryVO subCategoryVO) {
-        return subCategoryService.update(subCategoryVO);
+    public SubCategoryWithCategoryVO update(@Valid @RequestBody SubCategoryWithCategoryVO subCategoryWithCategoryVO) {
+        return subCategoryService.update(subCategoryWithCategoryVO);
     }
 
     @DeleteMapping( {"/{id}"} )
