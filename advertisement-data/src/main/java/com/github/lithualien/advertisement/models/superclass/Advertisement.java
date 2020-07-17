@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
 @MappedSuperclass
-public class Advertisement extends BaseEntity {
+public abstract class Advertisement extends BaseEntity {
 
     private String article;
 
