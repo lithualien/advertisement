@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -15,18 +14,13 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "table_advertisement")
-public class TabletAdvertisement extends Advertisement {
+@Table(name = "smart_gadget_advertisements")
+public class SmartGadgetAdvertisement extends Advertisement {
 
     private String manufacturer;
 
     private String model;
 
     private String color;
-
-    private String memory;
-
-    @Column(name = "screen_size")
-    private String screenSize;
 
 }
