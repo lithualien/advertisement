@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dozer.Mapping;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ public class SubCategory extends BaseEntity {
     @Column(name = "sub_category")
     private String subCategory;
 
+    @Mapping("this")
     @ManyToOne
     private Category category;
 
