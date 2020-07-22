@@ -1,36 +1,30 @@
 package com.github.lithualien.advertisement.models.superclass;
 
-import com.github.lithualien.advertisement.models.BaseEntity;
 import com.github.lithualien.advertisement.models.Type;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
-import java.time.LocalDate;
-
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
-public abstract class Advertisement extends BaseEntity {
+public class Advertisement extends BaseEntity {
 
-    private String article;
+    protected String article;
 
-    private Double price;
-
-    private String description;
+    protected Double price;
 
     @Lob
-    private Byte[] images;
+    protected String description;
+
+    @Lob
+    protected Byte[] images;
 
     @OneToOne
-    private Type type;
-
-    @Column(name = "created_at")
-    private LocalDate createDate;
-
-    @Column(name = "updated_at")
-    private LocalDate updateDate;
-
-    @Column(name = "sold_at")
-    private LocalDate soldDate;
+    protected Type type;
 
 }
