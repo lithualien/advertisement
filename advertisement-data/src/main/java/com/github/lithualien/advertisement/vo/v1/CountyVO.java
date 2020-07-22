@@ -1,6 +1,5 @@
 package com.github.lithualien.advertisement.vo.v1;
 
-import com.github.lithualien.advertisement.models.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CountyVO extends BaseEntity {
+public class CountyVO extends BaseVO {
 
     @NotBlank(message = "county field is required")
     private String county;
