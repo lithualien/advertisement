@@ -1,4 +1,4 @@
-package com.github.lithualien.advertisement.models;
+package com.github.lithualien.advertisement.models.superclass;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
