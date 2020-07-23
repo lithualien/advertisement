@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public class Advertisement extends BaseEntity {
+public abstract class Advertisement extends BaseEntity {
 
     protected String article;
 
@@ -20,9 +20,6 @@ public class Advertisement extends BaseEntity {
 
     @Lob
     protected String description;
-
-    @Lob
-    protected Byte[] images;
 
     @OneToOne
     protected Type type;
