@@ -4,9 +4,11 @@ import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.County;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface CityRepository extends CrudRepository<City, Long> {
 
     @Query("select city from City city where city.city = :city and city.county = :county")

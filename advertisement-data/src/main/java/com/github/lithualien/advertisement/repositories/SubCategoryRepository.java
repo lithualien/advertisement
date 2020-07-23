@@ -4,7 +4,9 @@ import com.github.lithualien.advertisement.models.Category;
 import com.github.lithualien.advertisement.models.SubCategory;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SubCategoryRepository extends CrudRepository<SubCategory, Long> {
 
     @Query("select case when count(subCategory) > 0 then true else false end "+
