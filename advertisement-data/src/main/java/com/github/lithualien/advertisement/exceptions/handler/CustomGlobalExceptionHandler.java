@@ -3,6 +3,7 @@ package com.github.lithualien.advertisement.exceptions.handler;
 import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
+import com.github.lithualien.advertisement.exceptions.UnsupportedMediaType;
 import com.github.lithualien.advertisement.vo.v1.ExceptionVO;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public final ResponseEntity<ExceptionVO> handleInternalServerErrorExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 webRequest.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler( { UnsupportedMediaType.class } )
+    public final ResponseEntity<ExceptionVO> handleUnsupportedMediaTypeExceptions(Exception exception, WebRequest webRequest) {
+        return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(),
+                webRequest.getDescription(false)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class, ConstraintViolationException.class, MethodArgumentTypeMismatchException.class } )
