@@ -1,10 +1,11 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.AccountCredentialAndUserConverter;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.AuthorityRepository;
 import com.github.lithualien.advertisement.repositories.UserRepository;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.AccountCredentialVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;

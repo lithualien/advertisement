@@ -1,4 +1,4 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.CountyConverter;
 import com.github.lithualien.advertisement.converters.DozerConverter;
@@ -6,6 +6,7 @@ import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsExcep
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.County;
 import com.github.lithualien.advertisement.repositories.CountyRepository;
+import com.github.lithualien.advertisement.services.CountyService;
 import com.github.lithualien.advertisement.vo.v1.CountySetVO;
 import com.github.lithualien.advertisement.vo.v1.CountyVO;
 import org.springframework.stereotype.Service;

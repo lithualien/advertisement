@@ -1,4 +1,4 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.UserPersonalInformationConverter;
 import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
@@ -12,6 +12,7 @@ import com.github.lithualien.advertisement.repositories.CityRepository;
 import com.github.lithualien.advertisement.repositories.CountyRepository;
 import com.github.lithualien.advertisement.repositories.UserPersonalInformationRepository;
 import com.github.lithualien.advertisement.repositories.UserRepository;
+import com.github.lithualien.advertisement.services.UserPersonalInformationService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.stereotype.Service;
 

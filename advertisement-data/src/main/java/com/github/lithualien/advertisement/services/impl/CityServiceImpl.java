@@ -1,4 +1,4 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.CityConverter;
 import com.github.lithualien.advertisement.converters.DozerConverter;
@@ -8,6 +8,7 @@ import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.County;
 import com.github.lithualien.advertisement.repositories.CityRepository;
 import com.github.lithualien.advertisement.repositories.CountyRepository;
+import com.github.lithualien.advertisement.services.CityService;
 import com.github.lithualien.advertisement.vo.v1.CityVO;
 import com.github.lithualien.advertisement.vo.v1.CityWithCountyVO;
 import org.springframework.stereotype.Service;

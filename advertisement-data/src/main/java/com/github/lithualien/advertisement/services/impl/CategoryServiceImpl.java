@@ -1,9 +1,10 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.DozerConverter;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.Category;
 import com.github.lithualien.advertisement.repositories.CategoryRepository;
+import com.github.lithualien.advertisement.services.CategoryService;
 import com.github.lithualien.advertisement.vo.v1.CategoryVO;
 import com.github.lithualien.advertisement.vo.v1.CategoryWithSubCategoriesVO;
 import org.springframework.stereotype.Service;

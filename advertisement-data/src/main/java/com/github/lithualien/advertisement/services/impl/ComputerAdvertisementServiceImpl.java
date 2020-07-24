@@ -1,8 +1,9 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.repositories.ComputerAdvertisementRepository;
-import com.github.lithualien.advertisement.vo.v1.ComputerAdvertisementVO;
+//import com.github.lithualien.advertisement.vo.v1.ComputerAdvertisementVO;
+import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,20 +31,20 @@ public class ComputerAdvertisementServiceImpl implements ComputerAdvertisementSe
 //                .collect(Collectors.toSet());
     }
 
-    @Override
-    public ComputerAdvertisementVO findAdvertisement(String category) {
-        return null;
-    }
-
-    @Override
-    public ComputerAdvertisementVO save(ComputerAdvertisementVO computerAdvertisementVO) {
-        return null;
-    }
-
-    @Override
-    public ComputerAdvertisementVO update(ComputerAdvertisementVO computerAdvertisementVO) {
-        return null;
-    }
+//    @Override
+//    public ComputerAdvertisementVO findAdvertisement(String category) {
+//        return null;
+//    }
+//
+//    @Override
+//    public ComputerAdvertisementVO save(ComputerAdvertisementVO computerAdvertisementVO) {
+//        return null;
+//    }
+//
+//    @Override
+//    public ComputerAdvertisementVO update(ComputerAdvertisementVO computerAdvertisementVO) {
+//        return null;
+//    }
 
     @Override
     public void delete(Long id) {

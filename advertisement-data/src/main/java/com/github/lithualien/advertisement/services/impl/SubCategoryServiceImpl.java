@@ -1,4 +1,4 @@
-package com.github.lithualien.advertisement.services;
+package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.SubCategoryConverter;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
@@ -7,6 +7,7 @@ import com.github.lithualien.advertisement.models.Category;
 import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.repositories.CategoryRepository;
 import com.github.lithualien.advertisement.repositories.SubCategoryRepository;
+import com.github.lithualien.advertisement.services.SubCategoryService;
 import com.github.lithualien.advertisement.vo.v1.SubCategoryWithCategoryVO;
 import org.springframework.stereotype.Service;
 
