@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,5 +25,9 @@ public class SubCategory extends BaseEntity {
     @Mapping("this")
     @ManyToOne
     private Category category;
+
+    @Mapping("this")
+    @OneToMany(mappedBy = "subCategory")
+    private Set<ComputerAdvertisement> advertisements = new HashSet<>();
 
 }
