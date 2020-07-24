@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "computer_advertisement")
+@Table(name = "computer_advertisements")
 public class ComputerAdvertisement extends Advertisement {
 
     private String cpu;
