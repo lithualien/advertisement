@@ -23,6 +23,18 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
+    public SubCategoryWithCategoryVO findById(Long id) {
+        return SubCategoryConverter.subCategoryToVO(
+                subCategoryRepository
+                        .findById(id)
+                        .<ResourceNotFoundException>orElseThrow( () -> {
+                            throw new ResourceNotFoundException("Sub category with id=" + id + " does not exist.");
+                        })
+
+        );
+    }
+
+    @Override
     public SubCategoryWithCategoryVO save(SubCategoryWithCategoryVO subCategoryWithCategoryVO) {
 
         Category category = getCategory(subCategoryWithCategoryVO);
