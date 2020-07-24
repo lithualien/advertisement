@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CityVO extends BaseVO implements Serializable {
+public class CityVO extends BaseVO {
 
     @NotBlank(message = "city field is required")
     private String city;

@@ -27,11 +27,9 @@ public class UserPersonalInformation extends BaseEntity {
     private String number;
 
     @Mapping("this")
-    @JsonManagedReference
     @ManyToOne
     private City city;
 
-    @JsonBackReference
     @ManyToOne
     private User user;
 

@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CountySetVO extends CountyVO implements Serializable {
+public class CountySetVO extends CountyVO {
 
     private Set<CityVO> cities = new HashSet<>();
 

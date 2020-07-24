@@ -1,21 +1,17 @@
 package com.github.lithualien.advertisement.vo.v1;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
-
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"id", "name", "email", "number", "city"})
-public class UserPersonalInformationVO extends BaseVO implements Serializable {
+public class UserPersonalInformationVO extends BaseVO {
 
     @NotBlank(message = "name field is required")
     private String name;
