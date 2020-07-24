@@ -1,11 +1,16 @@
 package com.github.lithualien.advertisement.models.superclass;
 
+import com.github.lithualien.advertisement.models.Image;
+import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.Type;
+import com.github.lithualien.advertisement.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -23,5 +28,12 @@ public abstract class Advertisement extends BaseEntity {
 
     @OneToOne
     protected Type type;
+
+    @ManyToOne
+    protected SubCategory subCategory;
+
+    @ManyToOne
+    protected User user;
+
 
 }
