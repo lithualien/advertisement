@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.net.URL;
-import java.util.Set;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageVO extends BaseVO {
+public class ImageVO {
 
-    private Set<URL> urls;
+    private URL url;
 }

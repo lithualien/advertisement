@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountCredentialVO {
+public class AccountCredentialVO implements Serializable {
 
     @NotBlank(message = "username field is required")
     private String username;

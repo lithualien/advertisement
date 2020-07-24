@@ -12,9 +12,9 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseVO implements Serializable {
+public abstract class BaseVO implements Serializable {
 
-    private Long id;
+    protected Long id;
 
     @Override
     public boolean equals(Object o) {
