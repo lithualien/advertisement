@@ -10,11 +10,13 @@ CREATE TABLE `computer_advertisements` (
   `motherboard` VARCHAR(255) NULL,
   `type_id` BIGINT NULL,
   `user_id` BIGINT NULL,
+  `city_id` BIGINT NULL,
   `sub_category_id` BIGINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_computer_advertisements_types_idx` (`type_id` ASC) VISIBLE,
   INDEX `fk_computer_advertisements_users_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_computer_advertisements_sub_categories_idx` (`sub_category_id` ASC) VISIBLE,
+  INDEX `fk_computer_advertisements_cities_idx` (`city_id` ASC) VISIBLE,
   CONSTRAINT `fk_computer_advertisements_types`
     FOREIGN KEY (`type_id`)
     REFERENCES `types` (`id`)
@@ -28,6 +30,11 @@ CREATE TABLE `computer_advertisements` (
   CONSTRAINT `fk_computer_advertisements_sub_categories`
     FOREIGN KEY (`sub_category_id`)
     REFERENCES `sub_categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+CONSTRAINT `fk_computer_advertisements_cities`
+    FOREIGN KEY (`city_id`)
+    REFERENCES `cities` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
