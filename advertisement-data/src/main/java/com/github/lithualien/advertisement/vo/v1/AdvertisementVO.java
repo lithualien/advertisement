@@ -25,4 +25,7 @@ public abstract class AdvertisementVO extends BaseVO {
 
     @NotBlank(message = "type field is required")
     protected String type;
+
+    @NotBlank(message = "city field is required")
+    protected String city;
 }
