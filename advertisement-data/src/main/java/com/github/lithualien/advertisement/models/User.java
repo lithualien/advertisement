@@ -47,10 +47,10 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<UserPersonalInformation> userPersonalInformation = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Image> images = new HashSet<>();
 
     public User(String username, String password, Set<Authority> authorities, Boolean accountNonExpired,

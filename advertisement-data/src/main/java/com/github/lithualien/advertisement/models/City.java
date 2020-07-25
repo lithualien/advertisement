@@ -30,8 +30,10 @@ public class City extends BaseEntity {
         this.county = county;
     }
 
-    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<UserPersonalInformation> userPersonalInformation = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
 
 }

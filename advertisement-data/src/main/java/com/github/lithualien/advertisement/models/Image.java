@@ -6,9 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.net.URL;
 
 @Getter
@@ -21,17 +20,14 @@ public class Image extends BaseEntity {
 
     private URL url;
 
-    @Mapping("this")
     @ManyToOne
     private User user;
 
-    @Mapping("this")
     @ManyToOne
     private SubCategory subCategory;
 
-    @Mapping("this")
     @ManyToOne
+    @JoinColumn(name = "advertisement_id")
     private ComputerAdvertisement computerAdvertisement;
-
 
 }
