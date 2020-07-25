@@ -28,4 +28,7 @@ public class ComputerAdvertisementVO extends AdvertisementVO {
 
     @NotBlank(message = "memory field is required")
     private String memory;
+
+
+
 }

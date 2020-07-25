@@ -15,6 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class ComputerAdvertisementWithImageVO extends ComputerAdvertisementVO {
 
-    private Set<Image> images = new HashSet<>();
+    private Set<ImageVO> images = new HashSet<>();
 
 }
