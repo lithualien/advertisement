@@ -1,5 +1,7 @@
 package com.github.lithualien.advertisement.exceptions.handler;
 
+import com.amazonaws.services.kms.model.InvalidGrantIdException;
+import com.amazonaws.services.kms.model.InvalidGrantTokenException;
 import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -40,10 +43,21 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 webRequest.getDescription(false)), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
-    @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class, ConstraintViolationException.class, MethodArgumentTypeMismatchException.class } )
+    @ExceptionHandler( { ResourceNotFoundException.class, ResourceAlreadyExistsException.class, ConstraintViolationException.class,
+            MethodArgumentTypeMismatchException.class } )
     public final ResponseEntity<ExceptionVO> handleBadRequestExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), HttpStatus.BAD_REQUEST.value(),
                 webRequest.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler( { HttpClientErrorException.class } )
+    public final ResponseEntity<ExceptionVO> handleHttpClientErrorException(Exception exception, WebRequest webRequest) {
+        ExceptionVO exceptionVO = new ExceptionVO();
+        exceptionVO.setStatus(HttpStatus.BAD_REQUEST.value());
+        exceptionVO.setError("Bad username or password");
+        exceptionVO.setTimestamp(LocalDateTime.now());
+        exceptionVO.setPath(webRequest.getDescription(false));
+        return new ResponseEntity<>(exceptionVO, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler( { NotContentCreatorException.class } )
