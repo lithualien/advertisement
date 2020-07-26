@@ -33,7 +33,7 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
 
     @Override
     public UserPersonalInformationVO getUserPersonalInformation(String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = getUser(username);
 
         UserPersonalInformation userPersonalInformation = getUserPersonalInformationByUser(user);
 
@@ -42,7 +42,7 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
 
     @Override
     public UserPersonalInformationVO save(UserPersonalInformationVO userPersonalInformationVO, String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = getUser(username);
 
         if(userPersonalInformationRepository.findIfPersonalInformationExistsByUser(user)) {
             throw new ResourceAlreadyExistsException("User has already added personal information.");
@@ -119,6 +119,14 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
                 .findById(id)
                 .<ResourceNotFoundException>orElseThrow( () -> {
                     throw new ResourceNotFoundException("User personal information was not found.");
+                });
+    }
+
+    private User getUser(String username) {
+        return userRepository
+                .findUserByUsername(username)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User with specified username does not exist.");
                 });
     }
 
