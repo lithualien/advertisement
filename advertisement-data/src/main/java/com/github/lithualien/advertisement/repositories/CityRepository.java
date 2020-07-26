@@ -14,6 +14,8 @@ public interface CityRepository extends CrudRepository<City, Long> {
     @Query("select city from City city where city.city = :city and city.county = :county")
     Optional<City> findByCityAndCounty(String city, County county);
 
+    Optional<City> findByCity(String city);
+
     @Query("select case when count (city) > 0 then true else false end " +
             "from City city where city.city = :city and city.county = :county")
     Boolean findIfCityExists(String city, County county);
