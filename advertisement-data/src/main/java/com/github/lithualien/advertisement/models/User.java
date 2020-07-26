@@ -50,9 +50,6 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Image> images = new HashSet<>();
-
     public User(String username, String password, Set<Authority> authorities, Boolean accountNonExpired,
                 Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
         this.username = username;
