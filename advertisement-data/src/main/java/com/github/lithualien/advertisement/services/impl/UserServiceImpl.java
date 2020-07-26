@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.AccountCredentialAndUserConverter;
 import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsException;
+import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.AuthorityRepository;
 import com.github.lithualien.advertisement.repositories.UserRepository;
@@ -39,7 +40,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(s);
+        return userRepository
+                .findUserByUsername(s)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User with specified username does not exist.");
+                });
     }
 
     @Override
