@@ -1,6 +1,7 @@
 package com.github.lithualien.advertisement.models;
 
 import com.github.lithualien.advertisement.models.superclass.Advertisement;
+import com.github.lithualien.advertisement.models.superclass.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +9,8 @@ import lombok.Setter;
 import org.dozer.Mapping;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -23,8 +22,9 @@ public class ComputerAdvertisement extends Advertisement {
 
     @Mapping("this")
     @OneToMany(mappedBy = "computerAdvertisement", cascade = CascadeType.ALL)
-    private List<Image> images = new LinkedList<>();
+    private List<ComputerImage> images = new LinkedList<>();
 
+    @Mapping("this")
     @ManyToOne
     private City city;
 

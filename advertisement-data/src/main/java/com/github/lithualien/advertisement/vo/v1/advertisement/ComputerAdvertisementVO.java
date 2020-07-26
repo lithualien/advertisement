@@ -1,7 +1,5 @@
-package com.github.lithualien.advertisement.vo.v1;
+package com.github.lithualien.advertisement.vo.v1.advertisement;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.lithualien.advertisement.models.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

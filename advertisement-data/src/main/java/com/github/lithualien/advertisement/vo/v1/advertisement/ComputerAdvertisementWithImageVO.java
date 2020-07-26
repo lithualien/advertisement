@@ -1,13 +1,13 @@
-package com.github.lithualien.advertisement.vo.v1;
+package com.github.lithualien.advertisement.vo.v1.advertisement;
 
-import com.github.lithualien.advertisement.models.Image;
+import com.github.lithualien.advertisement.vo.v1.ImageVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,6 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class ComputerAdvertisementWithImageVO extends ComputerAdvertisementVO {
 
-    private Set<ImageVO> images = new HashSet<>();
+    private List<ImageVO> images = new ArrayList<>();
 
 }
