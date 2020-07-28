@@ -14,5 +14,7 @@ public interface ComputerAdvertisementService {
 
     ComputerAdvertisementWithImageVO update(ComputerAdvertisementVO computerAdvertisementVO, String username);
 
-    void delete (Long id);
+    void delete (Long id, String username);
+
+    ComputerAdvertisementWithImageVO findById(Long id);
 }

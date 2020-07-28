@@ -49,6 +49,12 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
         return advertisementRepository.save(object);
     }
 
+    public void abstractDelete(Long id, String username) {
+        T advertisement = getAdvertisementById(id);
+        isAdvertisementCreator(advertisement, username);
+        advertisementRepository.delete(advertisement);
+    }
+
     protected User getUserByUsername(String username) {
         return userRepository
                 .findUserByUsername(username)
@@ -89,15 +95,6 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
     }
 
     private void isAdvertisementCreator(T object, String username) {
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("Object username: " + object.getUser().getUsername() + "************************ USERNAME: " + username);
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
         if(!object.getUser().getUsername()
                 .equals(username)) {
             throw new NotContentCreatorException("User did not create the advertisement.");

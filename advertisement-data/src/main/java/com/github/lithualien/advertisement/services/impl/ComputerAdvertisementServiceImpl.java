@@ -30,19 +30,27 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     public ComputerAdvertisementWithImageVO save(ComputerAdvertisementVO computerAdvertisementVO,
                                                          String username) {
         ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
-        return convertToVOWithImage(super.abstractSave(computerAdvertisement));
+        ComputerAdvertisement savedComputerAdvertisement = super.abstractSave(computerAdvertisement);
+        return convertToVOWithImage(savedComputerAdvertisement);
     }
 
     @Override
     public ComputerAdvertisementWithImageVO update(ComputerAdvertisementVO computerAdvertisementVO,
                                           String username) {
         ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
-        return convertToVOWithImage(super.abstractUpdate(computerAdvertisement, username));
+        ComputerAdvertisement savedComputerAdvertisement = super.abstractUpdate(computerAdvertisement, username);
+        return convertToVOWithImage(savedComputerAdvertisement);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
+        super.abstractDelete(id, username);
+    }
 
+    @Override
+    public ComputerAdvertisementWithImageVO findById(Long id) {
+        ComputerAdvertisement computerAdvertisement = super.abstractFindById(id);
+        return convertToVOWithImage(computerAdvertisement);
     }
 
     private ComputerAdvertisementWithImageVO convertToVOWithImage(ComputerAdvertisement computerAdvertisement) {
