@@ -23,7 +23,7 @@ public class SubCategory extends BaseEntity {
     private String subCategory;
 
     @Mapping("this")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
     @Mapping("this")

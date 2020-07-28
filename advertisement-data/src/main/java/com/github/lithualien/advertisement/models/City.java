@@ -21,7 +21,7 @@ public class City extends BaseEntity {
 
     private String city;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private County county;
 
     public City(Long id, String city, County county) {

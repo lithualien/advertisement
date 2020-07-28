@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.dozer.Mapping;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,10 +28,10 @@ public class UserPersonalInformation extends BaseEntity {
     private String number;
 
     @Mapping("this")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
 }

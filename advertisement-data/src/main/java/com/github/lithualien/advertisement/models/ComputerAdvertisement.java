@@ -25,7 +25,7 @@ public class ComputerAdvertisement extends Advertisement {
     private List<ComputerImage> images = new LinkedList<>();
 
     @Mapping("this")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
     private String cpu;
