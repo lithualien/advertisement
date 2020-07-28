@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -48,6 +49,11 @@ public class ComputerAdvertisementController {
         return new ResponseEntity<>(assembler.toModel(computerAdvertisementService.all(pageable)), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ComputerAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(computerAdvertisementService.findById(id), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ComputerAdvertisementWithImageVO> saveAdvertisement(
             @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO,
@@ -66,8 +72,8 @@ public class ComputerAdvertisementController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
-        computerAdvertisementService.delete(id);
+    public void delete(@PathVariable("id") Long id, Authentication authentication) {
+        computerAdvertisementService.delete(id, authentication.getName());
     }
 
     @PostMapping("/upload")
