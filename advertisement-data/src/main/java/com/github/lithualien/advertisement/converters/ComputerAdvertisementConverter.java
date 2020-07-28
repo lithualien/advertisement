@@ -29,8 +29,8 @@ public class ComputerAdvertisementConverter {
     public static ComputerAdvertisement computerAdvertisementMultipartFileToEntity(ComputerAdvertisementVO computerAdvertisementVO,
                                                                                    Type type, City city, SubCategory subCategory,
                                                                                    User user) {
+
         ComputerAdvertisement computerAdvertisement = DozerConverter.parseObject(computerAdvertisementVO, ComputerAdvertisement.class);
-        computerAdvertisement.setId(null);
         computerAdvertisement.setType(type);
         computerAdvertisement.setCity(city);
         computerAdvertisement.setSubCategory(subCategory);
