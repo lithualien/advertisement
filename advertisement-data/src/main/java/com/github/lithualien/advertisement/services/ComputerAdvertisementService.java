@@ -12,7 +12,7 @@ public interface ComputerAdvertisementService {
     ComputerAdvertisementWithImageVO save(ComputerAdvertisementVO computerAdvertisementVO,
                                                   String username);
 
-    ComputerAdvertisementVO update(ComputerAdvertisementVO computerAdvertisementVO);
+    ComputerAdvertisementWithImageVO update(ComputerAdvertisementVO computerAdvertisementVO, String username);
 
     void delete (Long id);
 }

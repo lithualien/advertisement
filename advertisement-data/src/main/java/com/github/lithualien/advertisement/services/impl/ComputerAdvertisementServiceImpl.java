@@ -3,7 +3,6 @@ package com.github.lithualien.advertisement.services.impl;
 import com.github.lithualien.advertisement.converters.ComputerAdvertisementConverter;
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.repositories.*;
-import com.github.lithualien.advertisement.services.FileService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
@@ -14,36 +13,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementService<ComputerAdvertisement> implements ComputerAdvertisementService {
 
-    private final ComputerAdvertisementRepository computerAdvertisementRepository;
-    private final FileService fileService;
+    public ComputerAdvertisementServiceImpl(UserRepository userRepository, CityRepository cityRepository,
+                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
+                                            ComputerAdvertisementRepository computerAdvertisementRepository) {
 
-
-    public ComputerAdvertisementServiceImpl(ComputerAdvertisementRepository computerAdvertisementRepository, UserRepository userRepository,
-                                            FileService fileService, CityRepository cityRepository,
-                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository) {
-        super(userRepository, cityRepository, subCategoryRepository, typeRepository);
-        this.computerAdvertisementRepository = computerAdvertisementRepository;
-        this.fileService = fileService;
+        super(userRepository, cityRepository, subCategoryRepository, typeRepository, computerAdvertisementRepository);
     }
 
     @Override
     public Page<ComputerAdvertisementWithImageVO> all(Pageable pageable) {
-        return super
-                .all(pageable, computerAdvertisementRepository)
+        return super.abstractAll(pageable)
                 .map(this::convertToVOWithImage);
     }
 
     @Override
     public ComputerAdvertisementWithImageVO save(ComputerAdvertisementVO computerAdvertisementVO,
                                                          String username) {
-        ComputerAdvertisement computerAdvertisement = convertVoWithMultipartFileToEntity(computerAdvertisementVO, username);
-        ComputerAdvertisement savedComputerAdvertisement = computerAdvertisementRepository.save(computerAdvertisement);
-        return convertToVOWithImage(savedComputerAdvertisement);
+        ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
+        return convertToVOWithImage(super.abstractSave(computerAdvertisement));
     }
 
     @Override
-    public ComputerAdvertisementVO update(ComputerAdvertisementVO computerAdvertisementVO) {
-        return null;
+    public ComputerAdvertisementWithImageVO update(ComputerAdvertisementVO computerAdvertisementVO,
+                                          String username) {
+        ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
+        return convertToVOWithImage(super.abstractUpdate(computerAdvertisement, username));
     }
 
     @Override
@@ -55,7 +49,7 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         return ComputerAdvertisementConverter.computerAdvertisementToVO(computerAdvertisement);
     }
 
-    private ComputerAdvertisement convertVoWithMultipartFileToEntity(ComputerAdvertisementVO computerVO, String username) {
+    private ComputerAdvertisement convertVoToEntity(ComputerAdvertisementVO computerVO, String username) {
         return ComputerAdvertisementConverter.computerAdvertisementMultipartFileToEntity(
                 computerVO,
                 super.getTypeByName(computerVO.getType()),

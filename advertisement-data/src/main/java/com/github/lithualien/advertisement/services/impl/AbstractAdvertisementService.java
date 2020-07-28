@@ -1,5 +1,6 @@
 package com.github.lithualien.advertisement.services.impl;
 
+import com.github.lithualien.advertisement.exceptions.NotContentCreatorException;
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.SubCategory;
@@ -16,22 +17,36 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
     private final CityRepository cityRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final TypeRepository typeRepository;
+    private final AdvertisementRepository<T> advertisementRepository;
 
     protected AbstractAdvertisementService(UserRepository userRepository, CityRepository cityRepository,
-                                           SubCategoryRepository subCategoryRepository, TypeRepository typeRepository) {
+                                           SubCategoryRepository subCategoryRepository, TypeRepository typeRepository, AdvertisementRepository<T> advertisementRepository) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.typeRepository = typeRepository;
+        this.advertisementRepository = advertisementRepository;
     }
 
-    public Page<T> all(Pageable pageable, AdvertisementRepository<T> advertisementRepository) {
+    public Page<T> abstractAll(Pageable pageable) {
         return advertisementRepository
                 .findAll(pageable);
     }
 
-    public T save(AdvertisementRepository<T> advertisementRepository, Advertisement advertisement) {
-        return null;
+    public T abstractFindById(Long id) {
+        return getAdvertisementById(id);
+    }
+
+    public T abstractSave(T object) {
+        object.setId(null);
+        return advertisementRepository.save(object);
+    }
+
+    public T abstractUpdate(T object, String username) {
+        isIdPresent(object);
+        T advertisement = getAdvertisementById(object.getId());
+        isAdvertisementCreator(advertisement, username);
+        return advertisementRepository.save(object);
     }
 
     protected User getUserByUsername(String username) {
@@ -64,5 +79,34 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
                 .<ResourceNotFoundException> orElseThrow( () -> {
             throw new ResourceNotFoundException("Specified type does not exists.");
         });
+    }
+    protected T getAdvertisementById(Long id) {
+        return advertisementRepository
+                .findById(id)
+                .<ResourceNotFoundException> orElseThrow( ()-> {
+                    throw new ResourceNotFoundException("Advertisement with id=" + id + " was not found.");
+                });
+    }
+
+    private void isAdvertisementCreator(T object, String username) {
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("Object username: " + object.getUser().getUsername() + "************************ USERNAME: " + username);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        if(!object.getUser().getUsername()
+                .equals(username)) {
+            throw new NotContentCreatorException("User did not create the advertisement.");
+        }
+    }
+
+    private void isIdPresent(T object) {
+        if(object.getId() == null) {
+            throw new ResourceNotFoundException("Please fill the id field.");
+        }
     }
 }
