@@ -52,13 +52,16 @@ public class ComputerAdvertisementController {
     public ResponseEntity<ComputerAdvertisementWithImageVO> saveAdvertisement(
             @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO,
             Authentication authentication) {
-        return new ResponseEntity<>(computerAdvertisementService.save(computerAdvertisementVO, authentication.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(computerAdvertisementService.save(computerAdvertisementVO, authentication.getName()),
+                HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<ComputerAdvertisementVO> updateAdvertisement(
-            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO) {
-        return new ResponseEntity<>(computerAdvertisementService.update(computerAdvertisementVO), HttpStatus.OK);
+            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO,
+            Authentication authentication) {
+        return new ResponseEntity<>(computerAdvertisementService.update(computerAdvertisementVO, authentication.getName()),
+                HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
