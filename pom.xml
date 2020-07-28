@@ -49,6 +49,5 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:lithualien/advertisement.git</developerConnection>
-    <tag>HEAD</tag>
   </scm>
 </project>
