@@ -25,7 +25,7 @@ public class FileController {
             @RequestParam("files") List<MultipartFile> multipartFiles,
             @RequestParam("adv_id") Long advertisementId,
             Authentication authentication) {
-        fileService.uploadFile(multipartFiles, advertisementId, authentication.getName());
+        fileService.uploadFiles(multipartFiles, advertisementId, authentication.getName());
     }
 
 }
