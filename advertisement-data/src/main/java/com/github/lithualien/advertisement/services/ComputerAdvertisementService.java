@@ -19,6 +19,8 @@ public interface ComputerAdvertisementService {
 
     ComputerAdvertisementWithImageVO findById(Long id);
 
+    Page<ComputerAdvertisementWithImageVO> findByUsername(Pageable pageable, String username);
+
     void isAdvertisementCreator(ComputerAdvertisement computerAdvertisement, String username);
 
     ComputerAdvertisement getAdvertisementById(Long id);

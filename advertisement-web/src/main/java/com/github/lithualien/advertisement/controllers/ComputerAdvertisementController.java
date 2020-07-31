@@ -36,13 +36,9 @@ public class ComputerAdvertisementController {
     public ResponseEntity<?> getAdvertisements(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort ) {
+            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
-        String[] array = sort.split(",");
-
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+        Pageable pageable = getPageable(page, size, sort);
 
         return new ResponseEntity<>(assembler.toModel(computerAdvertisementService.all(pageable)), HttpStatus.OK);
     }
@@ -50,6 +46,17 @@ public class ComputerAdvertisementController {
     @GetMapping("/{id}")
     public ResponseEntity<ComputerAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(computerAdvertisementService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getAdvertisementById(
+            @PathVariable("username") String username,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "20") Integer size,
+            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+        Pageable pageable = getPageable(page, size, sort);
+
+        return new ResponseEntity<>(computerAdvertisementService.findByUsername(pageable, username), HttpStatus.OK);
     }
 
     @PostMapping
@@ -90,5 +97,13 @@ public class ComputerAdvertisementController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
         computerImageService.delete(id, authentication.getName());
+    }
+
+    private Pageable getPageable(Integer page, Integer size, String sort) {
+        String[] array = sort.split(",");
+
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+        return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
     }
 }
