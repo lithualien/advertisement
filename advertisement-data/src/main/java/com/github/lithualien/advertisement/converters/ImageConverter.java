@@ -1,7 +1,6 @@
 package com.github.lithualien.advertisement.converters;
 
 import com.github.lithualien.advertisement.models.ComputerImage;
-import com.github.lithualien.advertisement.models.superclass.Image;
 import com.github.lithualien.advertisement.vo.v1.ImageVO;
 
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ public class ImageConverter {
 
     public static ImageVO entityToImageVO(ComputerImage image) {
         ImageVO imageVO = new ImageVO();
+        imageVO.setId(image.getId());
         imageVO.setUrl(image.getUrl());
         return imageVO;
     }

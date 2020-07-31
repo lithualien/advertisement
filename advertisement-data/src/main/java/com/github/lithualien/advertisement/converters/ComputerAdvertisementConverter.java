@@ -21,7 +21,12 @@ public class ComputerAdvertisementConverter {
 
         computerAdvertisement
                 .getImages()
-                .forEach(e -> urls.add(new ImageVO(e.getUrl())));
+                .forEach(e -> {
+                    ImageVO imageVO = new ImageVO();
+                    imageVO.setId(e.getId());
+                    imageVO.setUrl(e.getUrl());
+                    urls.add(imageVO);
+                });
 
         computerAdvertisementVO.setImages(urls);
         return computerAdvertisementVO;
