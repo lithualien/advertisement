@@ -6,6 +6,8 @@ import com.github.lithualien.advertisement.models.ComputerImage;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.FileService;
+import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
@@ -22,16 +24,21 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     public ComputerAdvertisementServiceImpl(UserRepository userRepository, CityRepository cityRepository,
                                             SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
                                             ComputerAdvertisementRepository computerAdvertisementRepository,
-                                            FileService fileService, ImageRepository<ComputerImage> computerImageImageRepository) {
+                                            FileService fileService, ImageRepository<ComputerImage> computerImageImageRepository,
+                                            UserPersonalInformationService userPersonalInformationService) {
 
-        super(userRepository, cityRepository, subCategoryRepository, typeRepository, computerAdvertisementRepository, fileService);
+        super(userRepository, cityRepository, subCategoryRepository, typeRepository, computerAdvertisementRepository, fileService, userPersonalInformationService);
         this.computerImageImageRepository = computerImageImageRepository;
     }
 
     @Override
     public Page<ComputerAdvertisementWithImageVO> all(Pageable pageable) {
         return super.abstractAll(pageable)
-                .map(this::convertToVOWithImage);
+                .map(e -> {
+                    String advertisementUsername = e.getUser().getUsername();
+                    UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(advertisementUsername);
+                    return convertToVOWithImage(e, userPersonalInformationVO);
+                });
     }
 
     @Override
@@ -39,7 +46,9 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
                                                          String username) {
         ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
         ComputerAdvertisement savedComputerAdvertisement = super.abstractSave(computerAdvertisement);
-        return convertToVOWithImage(savedComputerAdvertisement);
+        String advertisementUsername = computerAdvertisement.getUser().getUsername();
+        UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(advertisementUsername);
+        return convertToVOWithImage(savedComputerAdvertisement, userPersonalInformationVO);
     }
 
     @Override
@@ -47,7 +56,9 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
                                           String username) {
         ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);
         ComputerAdvertisement savedComputerAdvertisement = super.abstractUpdate(computerAdvertisement, username);
-        return convertToVOWithImage(savedComputerAdvertisement);
+        String advertisementUsername = computerAdvertisement.getUser().getUsername();
+        UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(advertisementUsername);
+        return convertToVOWithImage(savedComputerAdvertisement, userPersonalInformationVO);
     }
 
     @Override
@@ -58,7 +69,9 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     @Override
     public ComputerAdvertisementWithImageVO findById(Long id) {
         ComputerAdvertisement computerAdvertisement = super.abstractFindById(id);
-        return convertToVOWithImage(computerAdvertisement);
+        String username = computerAdvertisement.getUser().getUsername();
+        UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(username);
+        return convertToVOWithImage(computerAdvertisement, userPersonalInformationVO);
     }
 
     @Override
@@ -66,11 +79,12 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         ComputerAdvertisement advertisement = super.abstractFindById(id);
         List<String> imageUrls = super.abstractUpload(files, advertisement, username);
         saveImages(advertisement, imageUrls);
-        return convertToVOWithImage(advertisement);
+        UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(username);
+        return convertToVOWithImage(advertisement, userPersonalInformationVO);
     }
 
-    private ComputerAdvertisementWithImageVO convertToVOWithImage(ComputerAdvertisement computerAdvertisement) {
-        return ComputerAdvertisementConverter.computerAdvertisementToVO(computerAdvertisement);
+    private ComputerAdvertisementWithImageVO convertToVOWithImage(ComputerAdvertisement computerAdvertisement, UserPersonalInformationVO userPersonalInformationVO) {
+        return ComputerAdvertisementConverter.computerAdvertisementToVO(computerAdvertisement, userPersonalInformationVO);
     }
 
     private ComputerAdvertisement convertVoToEntity(ComputerAdvertisementVO computerVO, String username) {

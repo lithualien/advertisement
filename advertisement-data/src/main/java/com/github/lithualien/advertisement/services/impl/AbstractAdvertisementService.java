@@ -9,6 +9,8 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.models.superclass.Advertisement;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.FileService;
+import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,16 +25,18 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
     private final TypeRepository typeRepository;
     private final AdvertisementRepository<T> advertisementRepository;
     private final FileService fileService;
+    private final UserPersonalInformationService userPersonalInformationService;
 
     protected AbstractAdvertisementService(UserRepository userRepository, CityRepository cityRepository,
                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
-                                           AdvertisementRepository<T> advertisementRepository, FileService fileService) {
+                                           AdvertisementRepository<T> advertisementRepository, FileService fileService, UserPersonalInformationService userPersonalInformationService) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.typeRepository = typeRepository;
         this.advertisementRepository = advertisementRepository;
         this.fileService = fileService;
+        this.userPersonalInformationService = userPersonalInformationService;
     }
 
     public Page<T> abstractAll(Pageable pageable) {
@@ -104,6 +108,14 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
                 .<ResourceNotFoundException> orElseThrow( ()-> {
                     throw new ResourceNotFoundException("Advertisement with id=" + id + " was not found.");
                 });
+    }
+
+    protected UserPersonalInformationVO getUserPersonalInformation(String username) {
+        try {
+            return userPersonalInformationService.getUserPersonalInformation(username);
+        } catch (ResourceNotFoundException e) {
+            return null;
+        }
     }
 
     private void isAdvertisementCreator(T object, String username) {

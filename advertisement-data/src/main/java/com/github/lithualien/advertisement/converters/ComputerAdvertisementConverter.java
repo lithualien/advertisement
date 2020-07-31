@@ -1,21 +1,22 @@
 package com.github.lithualien.advertisement.converters;
 
 import com.github.lithualien.advertisement.models.*;
+import com.github.lithualien.advertisement.vo.v1.ImageVO;
+import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
-import com.github.lithualien.advertisement.vo.v1.ImageVO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComputerAdvertisementConverter {
 
-    public static ComputerAdvertisementWithImageVO computerAdvertisementToVO(ComputerAdvertisement computerAdvertisement) {
+    public static ComputerAdvertisementWithImageVO computerAdvertisementToVO(ComputerAdvertisement computerAdvertisement, UserPersonalInformationVO userPersonalInformationVO) {
         ComputerAdvertisementWithImageVO computerAdvertisementVO = DozerConverter.parseObject(computerAdvertisement, ComputerAdvertisementWithImageVO.class);
         computerAdvertisementVO.setType(computerAdvertisement.getType().getType());
         computerAdvertisementVO.setCity(computerAdvertisement.getCity().getCity());
         computerAdvertisementVO.setSubCategory(computerAdvertisement.getSubCategory().getSubCategory());
-
+        computerAdvertisementVO.setPersonalInformationVO(userPersonalInformationVO);
         List<ImageVO> urls = new ArrayList<>();
 
         computerAdvertisement
