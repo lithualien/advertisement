@@ -1,12 +1,10 @@
 package com.github.lithualien.advertisement.services;
 
+import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public interface ComputerAdvertisementService {
 
@@ -21,5 +19,7 @@ public interface ComputerAdvertisementService {
 
     ComputerAdvertisementWithImageVO findById(Long id);
 
-    ComputerAdvertisementWithImageVO uploadImages(List<MultipartFile> files, Long id, String username);
+    void isAdvertisementCreator(ComputerAdvertisement computerAdvertisement, String username);
+
+    ComputerAdvertisement getAdvertisementById(Long id);
 }

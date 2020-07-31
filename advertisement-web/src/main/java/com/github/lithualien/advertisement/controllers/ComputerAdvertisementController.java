@@ -1,6 +1,7 @@
 package com.github.lithualien.advertisement.controllers;
 
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
+import com.github.lithualien.advertisement.services.ComputerImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.PageRequest;
@@ -21,11 +22,13 @@ import java.util.List;
 public class ComputerAdvertisementController {
 
     private final ComputerAdvertisementService computerAdvertisementService;
+    private final ComputerImageService computerImageService;
     private final PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler;
 
     public ComputerAdvertisementController(ComputerAdvertisementService computerAdvertisementService,
-                                           PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
+                                           ComputerImageService computerImageService, PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
         this.computerAdvertisementService = computerAdvertisementService;
+        this.computerImageService = computerImageService;
         this.assembler = assembler;
     }
 
@@ -76,6 +79,16 @@ public class ComputerAdvertisementController {
             @RequestParam("advertisement") Long advertisement,
             @RequestParam("images") List<MultipartFile> multipartFiles,
             Authentication authentication) {
-        return new ResponseEntity<>(computerAdvertisementService.uploadImages(multipartFiles, advertisement, authentication.getName()), HttpStatus.OK);
+
+        ComputerAdvertisementWithImageVO advertisementWithImageVO =
+                computerImageService.upload(multipartFiles, advertisement, authentication.getName());
+
+        return new ResponseEntity<>(advertisementWithImageVO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/images/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
+        computerImageService.delete(id, authentication.getName());
     }
 }

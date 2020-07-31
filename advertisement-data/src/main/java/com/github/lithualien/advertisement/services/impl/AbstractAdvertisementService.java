@@ -8,14 +8,10 @@ import com.github.lithualien.advertisement.models.Type;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.models.superclass.Advertisement;
 import com.github.lithualien.advertisement.repositories.*;
-import com.github.lithualien.advertisement.services.FileService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public abstract class AbstractAdvertisementService<T extends Advertisement> {
 
@@ -24,18 +20,16 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
     private final SubCategoryRepository subCategoryRepository;
     private final TypeRepository typeRepository;
     private final AdvertisementRepository<T> advertisementRepository;
-    private final FileService fileService;
     private final UserPersonalInformationService userPersonalInformationService;
 
     protected AbstractAdvertisementService(UserRepository userRepository, CityRepository cityRepository,
                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
-                                           AdvertisementRepository<T> advertisementRepository, FileService fileService, UserPersonalInformationService userPersonalInformationService) {
+                                           AdvertisementRepository<T> advertisementRepository, UserPersonalInformationService userPersonalInformationService) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.typeRepository = typeRepository;
         this.advertisementRepository = advertisementRepository;
-        this.fileService = fileService;
         this.userPersonalInformationService = userPersonalInformationService;
     }
 
@@ -64,11 +58,6 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
         T advertisement = getAdvertisementById(id);
         isAdvertisementCreator(advertisement, username);
         advertisementRepository.delete(advertisement);
-    }
-
-    public List<String> abstractUpload(List<MultipartFile> files, T advertisement, String username){
-        isAdvertisementCreator(advertisement, username);
-        return fileService.uploadFiles(files);
     }
 
     protected User getUserByUsername(String username) {
@@ -102,7 +91,7 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
             throw new ResourceNotFoundException("Specified type does not exists.");
         });
     }
-    protected T getAdvertisementById(Long id) {
+    public T getAdvertisementById(Long id) {
         return advertisementRepository
                 .findById(id)
                 .<ResourceNotFoundException> orElseThrow( ()-> {
@@ -118,16 +107,18 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
         }
     }
 
-    private void isAdvertisementCreator(T object, String username) {
+    protected void isAdvertisementCreator(T object, String username) {
         if(!object.getUser().getUsername()
                 .equals(username)) {
             throw new NotContentCreatorException("User did not create the advertisement.");
         }
     }
 
-    private void isIdPresent(T object) {
+    protected void isIdPresent(T object) {
         if(object.getId() == null) {
             throw new ResourceNotFoundException("Please fill the id field.");
         }
     }
+
+
 }
