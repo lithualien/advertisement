@@ -4,6 +4,9 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertise
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface ComputerAdvertisementService {
 
@@ -17,4 +20,6 @@ public interface ComputerAdvertisementService {
     void delete (Long id, String username);
 
     ComputerAdvertisementWithImageVO findById(Long id);
+
+    ComputerAdvertisementWithImageVO uploadImages(List<MultipartFile> files, Long id, String username);
 }

@@ -1,8 +1,6 @@
 package com.github.lithualien.advertisement.controllers;
 
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
-import com.github.lithualien.advertisement.services.FileService;
-import com.github.lithualien.advertisement.vo.v1.ImageVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -24,13 +21,11 @@ import java.util.List;
 public class ComputerAdvertisementController {
 
     private final ComputerAdvertisementService computerAdvertisementService;
-    private final FileService fileService;
     private final PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler;
 
     public ComputerAdvertisementController(ComputerAdvertisementService computerAdvertisementService,
-                                           FileService fileService, PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
+                                           PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
         this.computerAdvertisementService = computerAdvertisementService;
-        this.fileService = fileService;
         this.assembler = assembler;
     }
 
@@ -76,11 +71,11 @@ public class ComputerAdvertisementController {
         computerAdvertisementService.delete(id, authentication.getName());
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<List<ImageVO>> uploadImages(
+    @PostMapping("/images/upload")
+    public ResponseEntity<ComputerAdvertisementVO> uploadImages(
             @RequestParam("advertisement") Long advertisement,
             @RequestParam("images") List<MultipartFile> multipartFiles,
             Authentication authentication) {
-        return new ResponseEntity<>(fileService.uploadFiles(multipartFiles, advertisement, authentication.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(computerAdvertisementService.uploadImages(multipartFiles, advertisement, authentication.getName()), HttpStatus.OK);
     }
 }
