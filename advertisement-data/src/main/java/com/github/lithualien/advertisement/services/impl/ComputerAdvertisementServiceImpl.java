@@ -2,7 +2,6 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.ComputerAdvertisementConverter;
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
-import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
@@ -13,19 +12,28 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
-public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementService<ComputerAdvertisement> implements ComputerAdvertisementService {
+public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementService<ComputerAdvertisement>
+        implements ComputerAdvertisementService {
 
     private final ComputerAdvertisementRepository computerAdvertisementRepository;
+    private final SearchRepository searchRepository;
 
     public ComputerAdvertisementServiceImpl(UserRepository userRepository, CityRepository cityRepository,
                                             SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
                                             ComputerAdvertisementRepository computerAdvertisementRepository,
-                                            UserPersonalInformationService userPersonalInformationService, ComputerAdvertisementRepository computerAdvertisementRepository1) {
+                                            UserPersonalInformationService userPersonalInformationService,
+                                            ComputerAdvertisementRepository computerAdvertisementRepository1,
+                                            SearchRepository searchRepository) {
 
-        super(userRepository, cityRepository, subCategoryRepository, typeRepository, computerAdvertisementRepository, userPersonalInformationService);
+        super(userRepository, cityRepository, subCategoryRepository, typeRepository,
+                computerAdvertisementRepository, userPersonalInformationService);
         this.computerAdvertisementRepository = computerAdvertisementRepository1;
+        this.searchRepository = searchRepository;
     }
 
     @Override
@@ -33,7 +41,8 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         return super.abstractAll(pageable)
                 .map(e -> {
                     String advertisementUsername = e.getUser().getUsername();
-                    UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(advertisementUsername);
+                    UserPersonalInformationVO userPersonalInformationVO =
+                            super.getUserPersonalInformation(advertisementUsername);
                     return convertToVOWithImage(e, userPersonalInformationVO);
                 });
     }
@@ -71,12 +80,12 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         return convertToVOWithImage(computerAdvertisement, userPersonalInformationVO);
     }
 
-    @Override
-    public Page<ComputerAdvertisementWithImageVO> findByUsername(Pageable pageable, String username) {
-        return getAdvertisementByUserName(pageable, username)
+    public Page<ComputerAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
+        return getAdvertisementByUserId(pageable, id)
                 .map(e -> {
                     String advertisementUsername = e.getUser().getUsername();
-                    UserPersonalInformationVO userPersonalInformationVO = super.getUserPersonalInformation(advertisementUsername);
+                    UserPersonalInformationVO userPersonalInformationVO =
+                            super.getUserPersonalInformation(advertisementUsername);
                     return convertToVOWithImage(e, userPersonalInformationVO);
                 });
     }
@@ -86,8 +95,23 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         super.isAdvertisementCreator(computerAdvertisement, username);
     }
 
-    private ComputerAdvertisementWithImageVO convertToVOWithImage(ComputerAdvertisement computerAdvertisement, UserPersonalInformationVO userPersonalInformationVO) {
-        return ComputerAdvertisementConverter.computerAdvertisementToVO(computerAdvertisement, userPersonalInformationVO);
+    @Override
+    public Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu,
+                                                                      String ram, String memory, String motherboard) {
+        return searchRepository
+                .findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard)
+                .map(advertisement -> {
+                    String advertisementUsername = advertisement.getUser().getUsername();
+                    UserPersonalInformationVO userPersonalInformationVO =
+                            super.getUserPersonalInformation(advertisementUsername);
+                    return convertToVOWithImage(advertisement, userPersonalInformationVO);
+                });
+    }
+
+    private ComputerAdvertisementWithImageVO convertToVOWithImage(ComputerAdvertisement computerAdvertisement,
+                                                                  UserPersonalInformationVO userPersonalInformationVO) {
+        return ComputerAdvertisementConverter
+                .computerAdvertisementToVO(computerAdvertisement, userPersonalInformationVO);
     }
 
     private ComputerAdvertisement convertVoToEntity(ComputerAdvertisementVO computerVO, String username) {
@@ -100,9 +124,8 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         );
     }
 
-    public Page<ComputerAdvertisement> getAdvertisementByUserName(Pageable pageable, String username) {
-        User user = getUserByUsername(username);
+    public Page<ComputerAdvertisement> getAdvertisementByUserId(Pageable pageable, Long id) {
         return computerAdvertisementRepository
-                .findAllByUser(pageable, user);
+                .findAllById(pageable, id);
     }
 }

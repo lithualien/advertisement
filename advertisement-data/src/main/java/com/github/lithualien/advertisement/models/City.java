@@ -6,11 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Indexed
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +22,7 @@ import java.util.Set;
 @Table(name = "cities")
 public class City extends BaseEntity {
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
     private String city;
 
     @ManyToOne(fetch = FetchType.LAZY)

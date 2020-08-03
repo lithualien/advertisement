@@ -4,8 +4,9 @@ import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ComputerAdvertisementRepository extends AdvertisementRepository<ComputerAdvertisement> {
+public interface SearchRepository {
 
-    Page<ComputerAdvertisement> findAllById(Pageable pageable, Long id);
+    Page<ComputerAdvertisement> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu, String ram,
+                                                    String memory, String motherboard);
 
 }

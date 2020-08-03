@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import javax.persistence.*;
 
 @Setter
@@ -24,12 +26,15 @@ public abstract class Advertisement extends BaseEntity {
     protected String description;
 
     @OneToOne
+    @IndexedEmbedded
     protected Type type;
 
     @ManyToOne
+    @IndexedEmbedded
     protected SubCategory subCategory;
 
     @ManyToOne
+    @IndexedEmbedded
     protected User user;
 
 

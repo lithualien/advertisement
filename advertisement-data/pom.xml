@@ -53,6 +53,19 @@
         </dependency>
         <!--    Spring framework end    -->
 
+        <!--    Hibernate start    -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>5.11.5.Final</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-search-elasticsearch</artifactId>-->
+<!--            <version>5.11.5.Final</version>-->
+<!--        </dependency>-->
+        <!--    Hibernate end    -->
+
         <!--    Jackson start    -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

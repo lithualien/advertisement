@@ -1,9 +1,11 @@
 package com.github.lithualien.advertisement.controllers;
 
+import com.github.lithualien.advertisement.repositories.SearchRepository;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.ComputerImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,12 +25,14 @@ public class ComputerAdvertisementController {
 
     private final ComputerAdvertisementService computerAdvertisementService;
     private final ComputerImageService computerImageService;
+    private final SearchRepository searchRepository;
     private final PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler;
 
     public ComputerAdvertisementController(ComputerAdvertisementService computerAdvertisementService,
-                                           ComputerImageService computerImageService, PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
+                                           ComputerImageService computerImageService, SearchRepository searchRepository, PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
         this.computerAdvertisementService = computerAdvertisementService;
         this.computerImageService = computerImageService;
+        this.searchRepository = searchRepository;
         this.assembler = assembler;
     }
 
@@ -48,15 +52,33 @@ public class ComputerAdvertisementController {
         return new ResponseEntity<>(computerAdvertisementService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<?> getAdvertisementById(
-            @PathVariable("username") String username,
+            @PathVariable("id") Long id,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(computerAdvertisementService.findByUsername(pageable, username), HttpStatus.OK);
+        return new ResponseEntity<>(computerAdvertisementService.findByUserId(pageable, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(
+            @RequestParam(value = "cpu", defaultValue = "null") String cpu,
+            @RequestParam(value = "gpu", defaultValue = "null") String gpu,
+            @RequestParam(value = "ram", defaultValue = "null") String ram,
+            @RequestParam(value = "memory", defaultValue = "null") String memory,
+            @RequestParam(value = "motherboard", defaultValue = "null") String motherboard,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "20") Integer size,
+            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
+        Pageable pageable = getPageable(page, size, sort);
+        Page<ComputerAdvertisementWithImageVO> advertisements
+                = computerAdvertisementService.findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard);
+
+        return new ResponseEntity<>(advertisements, HttpStatus.OK);
     }
 
     @PostMapping
