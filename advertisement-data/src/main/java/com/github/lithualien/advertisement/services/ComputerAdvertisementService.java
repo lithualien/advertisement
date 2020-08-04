@@ -29,5 +29,5 @@ public interface ComputerAdvertisementService {
     ComputerAdvertisement getAdvertisementById(Long id);
 
     Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu, String ram,
-                                                               String memory, String motherboard);
+                                                               String memory, String motherboard, String city);
 }

@@ -7,6 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface SearchRepository {
 
     Page<ComputerAdvertisement> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu, String ram,
-                                                    String memory, String motherboard);
+                                                    String memory, String motherboard, String city);
 
 }

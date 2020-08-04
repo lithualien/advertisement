@@ -1,6 +1,5 @@
 package com.github.lithualien.advertisement.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.github.lithualien.advertisement.models.superclass.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +36,7 @@ public class City extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<UserPersonalInformation> userPersonalInformation = new HashSet<>();
 
+    @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
 

@@ -97,9 +97,10 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
 
     @Override
     public Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu,
-                                                                      String ram, String memory, String motherboard) {
+                                                                      String ram, String memory, String motherboard,
+                                                                      String city) {
         return searchRepository
-                .findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard)
+                .findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard, city)
                 .map(advertisement -> {
                     String advertisementUsername = advertisement.getUser().getUsername();
                     UserPersonalInformationVO userPersonalInformationVO =

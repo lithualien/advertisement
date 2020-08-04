@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Indexed
-@Analyzer
 @Setter
 @Getter
 @NoArgsConstructor
@@ -25,12 +24,10 @@ public class ComputerAdvertisement extends Advertisement {
 
     @Mapping("this")
     @OneToMany(mappedBy = "computerAdvertisement", cascade = CascadeType.ALL)
-    @IndexedEmbedded
     private List<ComputerImage> images = new LinkedList<>();
 
     @Mapping("this")
     @ManyToOne(fetch = FetchType.LAZY)
-    @IndexedEmbedded
     private City city;
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)

@@ -65,18 +65,19 @@ public class ComputerAdvertisementController {
 
     @GetMapping("/search")
     public ResponseEntity<?> search(
-            @RequestParam(value = "cpu", defaultValue = "null") String cpu,
-            @RequestParam(value = "gpu", defaultValue = "null") String gpu,
-            @RequestParam(value = "ram", defaultValue = "null") String ram,
-            @RequestParam(value = "memory", defaultValue = "null") String memory,
-            @RequestParam(value = "motherboard", defaultValue = "null") String motherboard,
+            @RequestParam(value = "cpu", defaultValue = "") String cpu,
+            @RequestParam(value = "gpu", defaultValue = "") String gpu,
+            @RequestParam(value = "ram", defaultValue = "") String ram,
+            @RequestParam(value = "memory", defaultValue = "") String memory,
+            @RequestParam(value = "motherboard", defaultValue = "") String motherboard,
+            @RequestParam(value = "city", defaultValue = "") String city,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
         Page<ComputerAdvertisementWithImageVO> advertisements
-                = computerAdvertisementService.findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard);
+                = computerAdvertisementService.findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard, city);
 
         return new ResponseEntity<>(advertisements, HttpStatus.OK);
     }
