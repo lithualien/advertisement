@@ -11,12 +11,37 @@ import java.util.List;
 
 public class ComputerAdvertisementConverter {
 
-    public static ComputerAdvertisementWithImageVO computerAdvertisementToVO(ComputerAdvertisement computerAdvertisement, UserPersonalInformationVO userPersonalInformationVO) {
-        ComputerAdvertisementWithImageVO computerAdvertisementVO = DozerConverter.parseObject(computerAdvertisement, ComputerAdvertisementWithImageVO.class);
+    public static ComputerAdvertisementWithImageVO computerAdvertisementToVO(ComputerAdvertisement computerAdvertisement,
+                                                                 UserPersonalInformationVO userPersonalInformationVO) {
+
+        ComputerAdvertisementWithImageVO computerAdvertisementVO
+                = DozerConverter.parseObject(computerAdvertisement, ComputerAdvertisementWithImageVO.class);
+
         computerAdvertisementVO.setType(computerAdvertisement.getType().getType());
         computerAdvertisementVO.setCity(computerAdvertisement.getCity().getCity());
         computerAdvertisementVO.setSubCategory(computerAdvertisement.getSubCategory().getSubCategory());
         computerAdvertisementVO.setPersonalInformationVO(userPersonalInformationVO);
+
+        List<ImageVO> urls = getImageList(computerAdvertisement);
+
+        computerAdvertisementVO.setImages(urls);
+
+        return computerAdvertisementVO;
+    }
+
+    public static ComputerAdvertisement voToEntity(ComputerAdvertisementVO computerAdvertisementVO, Type type, City city,
+                                                   SubCategory subCategory, User user) {
+
+        ComputerAdvertisement computerAdvertisement
+                = DozerConverter.parseObject(computerAdvertisementVO, ComputerAdvertisement.class);
+        computerAdvertisement.setType(type);
+        computerAdvertisement.setCity(city);
+        computerAdvertisement.setSubCategory(subCategory);
+        computerAdvertisement.setUser(user);
+        return computerAdvertisement;
+    }
+
+    private static List<ImageVO> getImageList(ComputerAdvertisement computerAdvertisement) {
         List<ImageVO> urls = new ArrayList<>();
 
         computerAdvertisement
@@ -27,20 +52,6 @@ public class ComputerAdvertisementConverter {
                     imageVO.setUrl(e.getUrl());
                     urls.add(imageVO);
                 });
-
-        computerAdvertisementVO.setImages(urls);
-        return computerAdvertisementVO;
-    }
-
-    public static ComputerAdvertisement computerAdvertisementMultipartFileToEntity(ComputerAdvertisementVO computerAdvertisementVO,
-                                                                                   Type type, City city, SubCategory subCategory,
-                                                                                   User user) {
-
-        ComputerAdvertisement computerAdvertisement = DozerConverter.parseObject(computerAdvertisementVO, ComputerAdvertisement.class);
-        computerAdvertisement.setType(type);
-        computerAdvertisement.setCity(city);
-        computerAdvertisement.setSubCategory(subCategory);
-        computerAdvertisement.setUser(user);
-        return computerAdvertisement;
+        return urls;
     }
 }

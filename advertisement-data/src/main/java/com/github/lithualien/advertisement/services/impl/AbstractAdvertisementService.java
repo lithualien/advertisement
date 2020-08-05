@@ -68,6 +68,14 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
                 });
     }
 
+    protected User getUserById(Long id) {
+        return userRepository
+                .findById(id)
+                .<ResourceNotFoundException> orElseThrow( () -> {
+                    throw new ResourceNotFoundException("User with id=" + id + " does not exist.");
+                });
+    }
+
     protected City getCityByName(String city) {
         return cityRepository
                 .findByCity(city)
@@ -91,6 +99,7 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
             throw new ResourceNotFoundException("Specified type does not exists.");
         });
     }
+
     public T getAdvertisementById(Long id) {
         return advertisementRepository
                 .findById(id)

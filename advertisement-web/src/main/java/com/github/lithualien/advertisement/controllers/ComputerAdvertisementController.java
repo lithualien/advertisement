@@ -39,7 +39,7 @@ public class ComputerAdvertisementController {
     @GetMapping
     public ResponseEntity<?> getAdvertisements(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "20") Integer size,
+            @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
@@ -56,25 +56,25 @@ public class ComputerAdvertisementController {
     public ResponseEntity<?> getAdvertisementById(
             @PathVariable("id") Long id,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "20") Integer size,
+            @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(computerAdvertisementService.findByUserId(pageable, id), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(computerAdvertisementService.findByUserId(pageable, id)), HttpStatus.OK);
     }
 
     @PostMapping("/search")
     public ResponseEntity<?> search(
             @Valid @RequestBody ComputerAdvertisementSearchVO searchVO,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "20") Integer size,
+            @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
         Page<ComputerAdvertisementWithImageVO> advertisements
                 = computerAdvertisementService.findAllBaseOnSearch(pageable, searchVO);
 
-        return new ResponseEntity<>(advertisements, HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping

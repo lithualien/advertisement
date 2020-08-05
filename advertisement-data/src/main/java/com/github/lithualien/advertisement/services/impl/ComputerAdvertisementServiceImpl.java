@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.ComputerAdvertisementConverter;
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
+import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
@@ -12,9 +13,6 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertise
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -81,8 +79,10 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
         return convertToVOWithImage(computerAdvertisement, userPersonalInformationVO);
     }
 
+    @Override
     public Page<ComputerAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        return getAdvertisementByUserId(pageable, id)
+        User user = super.getUserById(id);
+        return computerAdvertisementRepository.findAllByUser(pageable, user)
                 .map(e -> {
                     String advertisementUsername = e.getUser().getUsername();
                     UserPersonalInformationVO userPersonalInformationVO =
@@ -116,17 +116,12 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     }
 
     private ComputerAdvertisement convertVoToEntity(ComputerAdvertisementVO computerVO, String username) {
-        return ComputerAdvertisementConverter.computerAdvertisementMultipartFileToEntity(
+        return ComputerAdvertisementConverter.voToEntity(
                 computerVO,
                 super.getTypeByName(computerVO.getType()),
                 super.getCityByName(computerVO.getCity()),
                 super.getSubCategoryByName(computerVO.getSubCategory()),
                 super.getUserByUsername(username)
         );
-    }
-
-    public Page<ComputerAdvertisement> getAdvertisementByUserId(Pageable pageable, Long id) {
-        return computerAdvertisementRepository
-                .findAllById(pageable, id);
     }
 }
