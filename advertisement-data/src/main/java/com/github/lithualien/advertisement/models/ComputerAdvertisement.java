@@ -27,22 +27,23 @@ public class ComputerAdvertisement extends Advertisement {
     private List<ComputerImage> images = new LinkedList<>();
 
     @Mapping("this")
+    @IndexedEmbedded
     @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String cpu;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String gpu;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String ram;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String memory;
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String motherboard;
 
 }

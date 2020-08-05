@@ -56,7 +56,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                             queryBuilder
                                     .keyword()
                                     .fuzzy()
-                                    .withEditDistanceUpTo(2)
+                                    .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("gpu")
                                     .matching(gpu)
@@ -70,7 +70,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                             queryBuilder
                                     .keyword()
                                     .fuzzy()
-                                    .withEditDistanceUpTo(2)
+                                    .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("ram")
                                     .matching(ram)
@@ -84,7 +84,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                             queryBuilder
                                     .keyword()
                                     .fuzzy()
-                                    .withEditDistanceUpTo(2)
+                                    .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("memory")
                                     .matching(memory)
@@ -98,7 +98,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                             queryBuilder
                                     .keyword()
                                     .fuzzy()
-                                    .withEditDistanceUpTo(2)
+                                    .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("motherboard")
                                     .matching(motherboard)
@@ -109,10 +109,10 @@ public class SearchRepositoryImpl implements SearchRepository {
         if(!city.isEmpty()){
             booleanJunction
                     .must(
-                            getQueryBuilder(City.class)
+                            queryBuilder
                                     .keyword()
-                                    .onField("city")
-                                    .matching("Kelmė")
+                                    .onField("city.city")
+                                    .matching(city)
                                     .createQuery()
                     );
         }

@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Indexed
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +20,7 @@ import java.util.Set;
 @Table(name = "cities")
 public class City extends BaseEntity {
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String city;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +35,6 @@ public class City extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<UserPersonalInformation> userPersonalInformation = new HashSet<>();
 
-    @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
 
