@@ -3,6 +3,7 @@ package com.github.lithualien.advertisement.repositories.impl;
 import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.repositories.SearchRepository;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -27,8 +28,7 @@ public class SearchRepositoryImpl implements SearchRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<ComputerAdvertisement> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu, String ram,
-                                                           String memory, String motherboard, String city) {
+    public Page<ComputerAdvertisement> findAllBaseOnSearch(Pageable pageable, ComputerAdvertisementSearchVO searchVO) {
 
         QueryBuilder queryBuilder = getQueryBuilder(ComputerAdvertisement.class);
 
@@ -36,7 +36,27 @@ public class SearchRepositoryImpl implements SearchRepository {
 
         BooleanJunction<?> booleanJunction = queryBuilder.bool();
 
-        if(!cpu.isEmpty()) {
+        booleanJunction
+                .must(
+                        queryBuilder
+                                .keyword()
+                                .onField("subCategory.subCategory")
+                                .matching(searchVO.getSubCategory())
+                                .createQuery()
+                );
+
+        if(searchVO.getCity() != null) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("city.city")
+                                    .matching(searchVO.getCity())
+                                    .createQuery()
+                    );
+        }
+
+        if(searchVO.getCpu() != null) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -45,12 +65,12 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("cpu")
-                                    .matching(cpu)
+                                    .matching(searchVO.getCpu())
                                     .createQuery()
                     );
         }
 
-        if(!gpu.isEmpty()) {
+        if(searchVO.getGpu() != null) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -59,12 +79,12 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("gpu")
-                                    .matching(gpu)
+                                    .matching(searchVO.getGpu())
                                     .createQuery()
                     );
         }
 
-        if(!ram.isEmpty()){
+        if(searchVO.getRam() != null) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -73,12 +93,12 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("ram")
-                                    .matching(ram)
+                                    .matching(searchVO.getRam())
                                     .createQuery()
                     );
         }
 
-        if(!memory.isEmpty()) {
+        if(searchVO.getMemory() != null) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -87,12 +107,12 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("memory")
-                                    .matching(memory)
+                                    .matching(searchVO.getMemory())
                                     .createQuery()
                     );
         }
 
-        if(!motherboard.isEmpty()) {
+        if(searchVO.getMemory() != null) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -101,18 +121,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("motherboard")
-                                    .matching(motherboard)
-                                    .createQuery()
-                    );
-        }
-
-        if(!city.isEmpty()){
-            booleanJunction
-                    .must(
-                            queryBuilder
-                                    .keyword()
-                                    .onField("city.city")
-                                    .matching(city)
+                                    .matching(searchVO.getMemory())
                                     .createQuery()
                     );
         }

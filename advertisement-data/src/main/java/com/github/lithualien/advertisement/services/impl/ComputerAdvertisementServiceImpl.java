@@ -6,6 +6,7 @@ import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
@@ -96,11 +97,10 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     }
 
     @Override
-    public Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable, String cpu, String gpu,
-                                                                      String ram, String memory, String motherboard,
-                                                                      String city) {
+    public Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable,
+                                                                      ComputerAdvertisementSearchVO searchVO) {
         return searchRepository
-                .findAllBaseOnSearch(pageable, cpu, gpu, ram, memory, motherboard, city)
+                .findAllBaseOnSearch(pageable, searchVO)
                 .map(advertisement -> {
                     String advertisementUsername = advertisement.getUser().getUsername();
                     UserPersonalInformationVO userPersonalInformationVO =

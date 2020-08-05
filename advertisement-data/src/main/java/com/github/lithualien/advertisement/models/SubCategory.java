@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,6 +23,7 @@ import java.util.Set;
 @Table(name = "sub_categories")
 public class SubCategory extends BaseEntity {
 
+    @Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
     @Column(name = "sub_category")
     private String subCategory;
 

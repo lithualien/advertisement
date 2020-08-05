@@ -20,12 +20,15 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/webjars/**", "/v2/**", "/swagger-ui.html**", "/swagger-resources/**", "/api/users/v1/register", "/api/users/v1/login").permitAll()
+                .antMatchers("/webjars/**", "/v2/**", "/swagger-ui.html**", "/swagger-resources/**",
+                        "/api/users/v1/register", "/api/users/v1/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/computers/v1/search").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/cities/**", "/api/counties/**", "/api/categories/**",
                         "/api/sub-categories/**").hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers(HttpMethod.PUT,"/api/cities/**", "/api/counties/**", "/api/categories/**",
                         "/api/sub-categories/**").hasAnyAuthority("ADMIN", "MANAGER")
-                .antMatchers(HttpMethod.DELETE, "/api/computers/**").hasAnyAuthority("ADMIN", "MANAGER", "USER")
+                .antMatchers(HttpMethod.DELETE, "/api/computers/**")
+                        .hasAnyAuthority("ADMIN", "MANAGER", "USER")
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ADMIN", "MANAGER", "USER")
                 .antMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("ADMIN", "MANAGER", "USER")

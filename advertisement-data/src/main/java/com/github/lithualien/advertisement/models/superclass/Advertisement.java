@@ -26,7 +26,6 @@ public abstract class Advertisement extends BaseEntity {
     protected String description;
 
     @OneToOne
-    @IndexedEmbedded
     protected Type type;
 
     @ManyToOne
@@ -34,7 +33,6 @@ public abstract class Advertisement extends BaseEntity {
     protected SubCategory subCategory;
 
     @ManyToOne
-    @IndexedEmbedded
     protected User user;
 
 

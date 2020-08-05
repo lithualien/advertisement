@@ -20,7 +20,7 @@ import java.util.Set;
 @Table(name = "cities")
 public class City extends BaseEntity {
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)
     private String city;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,5 +37,8 @@ public class City extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private Set<PhoneAdvertisement> phoneAdvertisements = new HashSet<>();
 
 }
