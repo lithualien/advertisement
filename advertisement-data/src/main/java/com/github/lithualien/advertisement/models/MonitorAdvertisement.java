@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,10 @@ public class MonitorAdvertisement extends Advertisement {
     @IndexedEmbedded
     @ManyToOne
     private City city;
+
+    @Mapping("this")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monitorAdvertisement")
+    private List<MonitorImage> images = new ArrayList<>();
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String brand;
