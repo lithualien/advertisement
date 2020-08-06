@@ -55,10 +55,11 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
                 .map(this::convertToVOWithImage);
     }
 
-    // todo implement search
     @Override
     public Page<PhoneAdvertisementWithImageVO> findSearch(Pageable pageable, PhoneAdvertisementSearchVO searchVO) {
-        return null;
+        return searchRepository
+                .searchPhones(pageable, searchVO)
+                .map(this::convertToVOWithImage);
     }
 
     @Override

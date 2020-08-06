@@ -100,7 +100,7 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     public Page<ComputerAdvertisementWithImageVO> findAllBaseOnSearch(Pageable pageable,
                                                                       ComputerAdvertisementSearchVO searchVO) {
         return searchRepository
-                .findAllBaseOnSearch(pageable, searchVO)
+                .searchComputers(pageable, searchVO)
                 .map(advertisement -> {
                     String advertisementUsername = advertisement.getUser().getUsername();
                     UserPersonalInformationVO userPersonalInformationVO =

@@ -2,8 +2,10 @@ package com.github.lithualien.advertisement.repositories.impl;
 
 import com.github.lithualien.advertisement.models.City;
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
+import com.github.lithualien.advertisement.models.PhoneAdvertisement;
 import com.github.lithualien.advertisement.repositories.SearchRepository;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementSearchVO;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -28,11 +30,11 @@ public class SearchRepositoryImpl implements SearchRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<ComputerAdvertisement> findAllBaseOnSearch(Pageable pageable, ComputerAdvertisementSearchVO searchVO) {
+    public Page<ComputerAdvertisement> searchComputers(Pageable pageable, ComputerAdvertisementSearchVO searchVO) {
 
         QueryBuilder queryBuilder = getQueryBuilder(ComputerAdvertisement.class);
 
-        Sort sort = new Sort(SortField.FIELD_SCORE, new SortField("id", SortField.Type.STRING, true));
+        Sort sort = getSort();
 
         BooleanJunction<?> booleanJunction = queryBuilder.bool();
 
@@ -126,19 +128,128 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        Query fuzzyQuery = null;
+        Query fuzzyQuery = booleanJunction.createQuery();
 
-        if (booleanJunction != null) {
-            fuzzyQuery = booleanJunction.createQuery();
-        }
-
-        List<ComputerAdvertisement> advertisements = getJpaQuery(fuzzyQuery, ComputerAdvertisement.class, pageable).setSort(sort).getResultList();
-
+        List<ComputerAdvertisement> advertisements
+                = getJpaQuery(fuzzyQuery, ComputerAdvertisement.class, pageable)
+                    .setSort(sort)
+                    .getResultList();
 
 
         return new PageImpl<>(advertisements, pageable, advertisements.size());
 
 
+    }
+
+    @Override
+    public Page<PhoneAdvertisement> searchPhones(Pageable pageable, PhoneAdvertisementSearchVO searchVO) {
+
+        QueryBuilder queryBuilder = getQueryBuilder(PhoneAdvertisement.class);
+
+        BooleanJunction<?> booleanJunction = queryBuilder.bool();
+
+        Sort sort = getSort();
+
+        booleanJunction
+                .must(
+                        queryBuilder
+                        .keyword()
+                        .onField("subCategory.subCategory")
+                        .matching(searchVO.getSubCategory())
+                        .createQuery()
+                );
+
+        if(searchVO.getCity() != null) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                            .keyword()
+                            .onField("city.city")
+                            .matching(searchVO.getCity())
+                            .createQuery()
+                    );
+        }
+
+        if(searchVO.getManufacturer() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                            .keyword()
+                            .fuzzy()
+                            .onField("manufacturer")
+                            .matching(searchVO.getManufacturer())
+                            .createQuery()
+                    );
+        }
+
+        if(searchVO.getModel() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .fuzzy()
+                                    .onField("model")
+                                    .matching(searchVO.getModel())
+                                    .createQuery()
+                    );
+        }
+
+        if(searchVO.getOs() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .fuzzy()
+                                    .onField("os")
+                                    .matching(searchVO.getOs())
+                                    .createQuery()
+                    );
+        }
+
+        if(searchVO.getCamera() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .fuzzy()
+                                    .onField("camera")
+                                    .matching(searchVO.getCamera())
+                                    .createQuery()
+                    );
+        }
+
+        if(searchVO.getRam() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .fuzzy()
+                                    .onField("ram")
+                                    .matching(searchVO.getRam())
+                                    .createQuery()
+                    );
+        }
+
+        if(searchVO.getMemory() != null) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .fuzzy()
+                                    .onField("memory")
+                                    .matching(searchVO.getMemory())
+                                    .createQuery()
+                    );
+        }
+
+        Query query = booleanJunction.createQuery();
+
+        List<PhoneAdvertisement> phoneAdvertisements
+                = getJpaQuery(query, PhoneAdvertisement.class, pageable)
+                    .setSort(sort)
+                    .getResultList();
+
+        return new PageImpl<>(phoneAdvertisements, pageable, phoneAdvertisements.size());
     }
 
     private<T> FullTextQuery getJpaQuery(Query luceneQuery, Class<T> object, Pageable pageable) {
@@ -166,5 +277,9 @@ public class SearchRepositoryImpl implements SearchRepository {
                 .buildQueryBuilder()
                 .forEntity(object)
                 .get();
+    }
+
+    private Sort getSort(){
+        return new Sort(SortField.FIELD_SCORE, new SortField("id", SortField.Type.STRING, true));
     }
 }
