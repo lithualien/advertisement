@@ -9,16 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComputerAdvertisementSearchVO extends AdvertisementSearchVO {
+public class ExternalDeviceAdvertisementSearchVO extends AdvertisementSearchVO {
 
-    private String cpu;
+    private String brand;
 
-    private String motherboard;
-
-    private String gpu;
-
-    private String ram;
-
-    private String memory;
+    private String wireless;
 
 }

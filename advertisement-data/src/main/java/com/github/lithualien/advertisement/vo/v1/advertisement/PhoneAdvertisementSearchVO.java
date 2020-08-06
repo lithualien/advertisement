@@ -4,15 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhoneAdvertisementSearchVO implements Serializable {
+public class PhoneAdvertisementSearchVO extends AdvertisementSearchVO {
 
     private String manufacturer;
 
@@ -25,10 +22,4 @@ public class PhoneAdvertisementSearchVO implements Serializable {
     private String ram;
 
     private String memory;
-
-    private String city;
-
-    @NotBlank(message = "sub_category field is required")
-    @JsonProperty(value = "sub_category")
-    private String subCategory;
 }
