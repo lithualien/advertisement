@@ -1,12 +1,13 @@
 package com.github.lithualien.advertisement.controllers;
 
+import com.github.lithualien.advertisement.models.Authority;
 import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.AccountCredentialVO;
+import com.github.lithualien.advertisement.vo.v1.AdminVO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,5 +33,9 @@ public class UserController {
         return userService.userLoginToken(accountCredentialVO, httpServletRequest.getHeader("host"));
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<AdminVO> isAdmin(Authentication authentication) {
+        return new ResponseEntity<>(userService.isAdmin(authentication), HttpStatus.OK);
+    }
 }
 
