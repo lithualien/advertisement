@@ -23,11 +23,6 @@ import java.util.List;
 public class TVAdvertisement extends Advertisement {
 
     @Mapping("this")
-    @IndexedEmbedded
-    @ManyToOne
-    private City city;
-
-    @Mapping("this")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tvAdvertisement")
     private List<TVImage> images = new ArrayList<>();
 

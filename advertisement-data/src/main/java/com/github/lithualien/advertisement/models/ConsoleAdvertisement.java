@@ -23,11 +23,6 @@ import java.util.List;
 public class ConsoleAdvertisement extends Advertisement {
 
     @Mapping("this")
-    @IndexedEmbedded
-    @ManyToOne
-    private City city;
-
-    @Mapping("this")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "consoleAdvertisement")
     private List<ConsoleImage> images = new ArrayList<>();
 
