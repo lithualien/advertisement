@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConsoleAdvertisementRepository extends AdvertisementRepository<ConsoleAdvertisement> {
 
-    Page<ConsoleAdvertisement> findAllBySubCategory(Pageable pageable, SubCategory subCategory);
-
     Page<ConsoleAdvertisement> findAllByUser(Pageable pageable, User user);
+
+    Page<ConsoleAdvertisement> findAllBySubCategory(Pageable pageable, SubCategory subCategory);
 
 }

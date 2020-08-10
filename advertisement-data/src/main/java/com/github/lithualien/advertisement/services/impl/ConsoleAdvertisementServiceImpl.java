@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.ConsoleAdvertisementConverter;
 import com.github.lithualien.advertisement.models.ConsoleAdvertisement;
+import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ConsoleAdvertisementService;
@@ -43,7 +44,10 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
 
     @Override
     public Page<ConsoleAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
-        return null;
+        SubCategory subCategoryObject = super.getSubCategoryByName(subCategory);
+        return consoleAdvertisementRepository
+                .findAllBySubCategory(pageable, subCategoryObject)
+                .map(this::convertToVOWithImage);
     }
 
     @Override

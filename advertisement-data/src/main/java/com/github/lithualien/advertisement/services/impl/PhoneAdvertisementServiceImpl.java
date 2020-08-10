@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.PhoneAdvertisementConverter;
 import com.github.lithualien.advertisement.models.PhoneAdvertisement;
+import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.PhoneAdvertisementService;
@@ -41,7 +42,10 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
 
     @Override
     public Page<PhoneAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
-        return null;
+        SubCategory subCategoryObject = super.getSubCategoryByName(subCategory);
+        return repository
+                .findAllBySubCategory(pageable, subCategoryObject)
+                .map(this::convertToVOWithImage);
     }
 
     @Override
