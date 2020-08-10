@@ -1,4 +1,4 @@
-CREATE TABLE `adv_project`.`phone_images` (
+CREATE TABLE `phone_images` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `url` VARCHAR(45) NULL,
   `phone_advertisement_id` BIGINT NULL,

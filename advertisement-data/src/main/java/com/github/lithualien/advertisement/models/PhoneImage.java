@@ -1,7 +1,10 @@
 package com.github.lithualien.advertisement.models;
 
 import com.github.lithualien.advertisement.models.superclass.Image;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "phone_images")
 public class PhoneImage extends Image {
 
     @ManyToOne(fetch = FetchType.LAZY)

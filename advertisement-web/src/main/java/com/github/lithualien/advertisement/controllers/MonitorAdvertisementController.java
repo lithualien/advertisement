@@ -1,10 +1,9 @@
 package com.github.lithualien.advertisement.controllers;
 
-import com.github.lithualien.advertisement.services.ConsoleAdvertisementService;
-import com.github.lithualien.advertisement.services.ConsoleImageService;
+import com.github.lithualien.advertisement.services.MonitorAdvertisementService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,25 +12,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping("api/consoles/v1")
-public class ConsoleAdvertisementController {
+@RequestMapping("api/monitors/v1")
+public class MonitorAdvertisementController {
 
-    private final ConsoleAdvertisementService advertisementService;
-    private final PagedResourcesAssembler<ConsoleAdvertisementWithImageVO> assembler;
-    private final ConsoleImageService consoleImageService;
+    private final MonitorAdvertisementService advertisementService;
+    private final PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler;
 
-    public ConsoleAdvertisementController(ConsoleAdvertisementService advertisementService,
-                                          PagedResourcesAssembler<ConsoleAdvertisementWithImageVO> assembler,
-                                          ConsoleImageService consoleImageService) {
+    public MonitorAdvertisementController(MonitorAdvertisementService advertisementService, PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler) {
         this.advertisementService = advertisementService;
         this.assembler = assembler;
-        this.consoleImageService = consoleImageService;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "15") Integer size,
+            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
+        Pageable pageable = getPageable(page, size, sort);
+
+        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -43,11 +47,11 @@ public class ConsoleAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable, subCategory)), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConsoleAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<MonitorAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(advertisementService.findById(id), HttpStatus.OK);
     }
 
@@ -59,12 +63,11 @@ public class ConsoleAdvertisementController {
             @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
-
         return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id, subCategory)),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/search")
+    @PostMapping
     public ResponseEntity<?> search(
             @Valid @RequestBody ConsoleAdvertisementSearchVO searchVO,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -77,16 +80,16 @@ public class ConsoleAdvertisementController {
     }
 
     @PostMapping
-    public ResponseEntity<ConsoleAdvertisementWithImageVO> saveAdvertisement(
-            @Valid @RequestBody ConsoleAdvertisementVO consoleAdvertisementVO, Authentication authentication) {
-        return new ResponseEntity<>(advertisementService.save(consoleAdvertisementVO, authentication.getName()),
+    public ResponseEntity<MonitorAdvertisementWithImageVO> saveAdvertisement(
+            @Valid @RequestBody MonitorAdvertisementVO monitorAdvertisementVO, Authentication authentication) {
+        return new ResponseEntity<>(advertisementService.save(monitorAdvertisementVO, authentication.getName()),
                 HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<ConsoleAdvertisementWithImageVO> updateAdvertisement(
-            @Valid @RequestBody ConsoleAdvertisementVO consoleAdvertisementVO, Authentication authentication) {
-        return new ResponseEntity<>(advertisementService.update(consoleAdvertisementVO, authentication.getName()),
+    public ResponseEntity<MonitorAdvertisementWithImageVO> updateAdvertisement(
+            @Valid @RequestBody MonitorAdvertisementVO monitorAdvertisementVO, Authentication authentication) {
+        return new ResponseEntity<>(advertisementService.update(monitorAdvertisementVO, authentication.getName()),
                 HttpStatus.OK);
     }
 
@@ -96,22 +99,6 @@ public class ConsoleAdvertisementController {
         advertisementService.delete(id, authentication.getName());
     }
 
-    @PostMapping("/images/upload")
-    public ResponseEntity<ConsoleAdvertisementWithImageVO> uploadImages(
-            @RequestParam("advertisement") Long advertisement,
-            @RequestParam("images") List<MultipartFile> multipartFiles, Authentication authentication) {
-
-        ConsoleAdvertisementWithImageVO advertisementWithImageVO
-                = consoleImageService.upload(multipartFiles, advertisement, authentication.getName());
-        return new ResponseEntity<>(advertisementWithImageVO, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/images/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
-        consoleImageService.delete(id, authentication.getName());
-    }
-
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
@@ -119,5 +106,4 @@ public class ConsoleAdvertisementController {
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
     }
-
 }

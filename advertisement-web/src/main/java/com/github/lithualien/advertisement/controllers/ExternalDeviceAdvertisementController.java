@@ -2,7 +2,7 @@ package com.github.lithualien.advertisement.controllers;
 
 import com.github.lithualien.advertisement.services.ExternalDeviceAdvertisementService;
 import com.github.lithualien.advertisement.services.ExternalDeviceImageService;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
 import org.springframework.data.domain.PageRequest;
@@ -67,7 +67,7 @@ public class ExternalDeviceAdvertisementController {
 
     @PostMapping("/search")
     public ResponseEntity<?> search(
-            @Valid @RequestBody ComputerAdvertisementSearchVO searchVO,
+            @Valid @RequestBody ExternalDeviceAdvertisementSearchVO searchVO,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {

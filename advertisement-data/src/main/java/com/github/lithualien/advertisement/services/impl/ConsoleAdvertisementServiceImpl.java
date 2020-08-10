@@ -99,7 +99,7 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
         return ConsoleAdvertisementConverter.entityToVO(advertisement, userPersonalInformationVO);
     }
 
-    public ConsoleAdvertisement convertVoToEntity(ConsoleAdvertisementVO advertisementVO, String username) {
+    private ConsoleAdvertisement convertVoToEntity(ConsoleAdvertisementVO advertisementVO, String username) {
         return ConsoleAdvertisementConverter.voToEntity(
                 advertisementVO,
                 super.getTypeByName(advertisementVO.getType()),
