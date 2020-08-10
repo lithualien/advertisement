@@ -23,11 +23,6 @@ import java.util.List;
 public class ExternalDeviceAdvertisement extends Advertisement {
 
     @Mapping("this")
-    @IndexedEmbedded
-    @ManyToOne
-    private City city;
-
-    @Mapping("this")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "externalDeviceAdvertisement")
     private List<ExternalDeviceImage> images = new ArrayList<>();
 

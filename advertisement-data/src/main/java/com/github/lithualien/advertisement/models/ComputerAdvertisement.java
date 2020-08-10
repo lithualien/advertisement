@@ -26,11 +26,6 @@ public class ComputerAdvertisement extends Advertisement {
     @OneToMany(mappedBy = "computerAdvertisement", cascade = CascadeType.ALL)
     private List<ComputerImage> images = new LinkedList<>();
 
-    @Mapping("this")
-    @IndexedEmbedded
-    @ManyToOne(fetch = FetchType.LAZY)
-    private City city;
-
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String cpu;
 

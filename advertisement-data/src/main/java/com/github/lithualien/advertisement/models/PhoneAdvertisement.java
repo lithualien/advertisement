@@ -23,11 +23,6 @@ public class PhoneAdvertisement extends Advertisement {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phoneAdvertisement")
     private List<PhoneImage> phoneImages = new ArrayList<>();
 
-    @Mapping("this")
-    @IndexedEmbedded
-    @ManyToOne(fetch = FetchType.LAZY)
-    private City city;
-
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String manufacturer;
 
