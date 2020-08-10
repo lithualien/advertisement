@@ -1,8 +1,6 @@
 package com.github.lithualien.advertisement.services;
 
-import com.github.lithualien.advertisement.models.Category;
 import com.github.lithualien.advertisement.models.ExternalDeviceAdvertisement;
-import com.github.lithualien.advertisement.vo.v1.advertisement.AdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
@@ -11,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ExternalDeviceAdvertisementService {
 
-    Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String category, String subCategory);
+    Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String subCategory);
 
     ExternalDeviceAdvertisementWithImageVO findById(Long id);
 

@@ -7,10 +7,12 @@ import com.github.lithualien.advertisement.services.ExternalDeviceAdvertisementS
 import com.github.lithualien.advertisement.services.ExternalDeviceImageService;
 import com.github.lithualien.advertisement.services.FileService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Service
 public class ExternalDeviceImageServiceImpl extends AbstractImageService<ExternalDeviceImage> implements ExternalDeviceImageService {
 
     private final ExternalDeviceAdvertisementService externalDeviceAdvertisementService;

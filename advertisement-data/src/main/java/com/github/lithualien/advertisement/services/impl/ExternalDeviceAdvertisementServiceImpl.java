@@ -35,7 +35,7 @@ public class ExternalDeviceAdvertisementServiceImpl
     }
 
     @Override
-    public Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String category, String subCategory) {
+    public Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String subCategory) {
         return super
                 .abstractAll(pageable)
                 .map(this::convertToVOWithImage);
