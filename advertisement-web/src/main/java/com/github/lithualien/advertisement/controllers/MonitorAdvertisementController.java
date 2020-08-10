@@ -67,7 +67,7 @@ public class MonitorAdvertisementController {
                 HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/search")
     public ResponseEntity<?> search(
             @Valid @RequestBody ConsoleAdvertisementSearchVO searchVO,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
