@@ -1,15 +1,15 @@
 package com.github.lithualien.advertisement.services;
 
-import com.github.lithualien.advertisement.models.Category;
 import com.github.lithualien.advertisement.models.ConsoleAdvertisement;
-import com.github.lithualien.advertisement.models.SubCategory;
-import com.github.lithualien.advertisement.vo.v1.advertisement.*;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ConsoleAdvertisementService {
 
-    Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String category, String subCategory);
+    Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String subCategory);
 
     ConsoleAdvertisementWithImageVO findById(Long id);
 

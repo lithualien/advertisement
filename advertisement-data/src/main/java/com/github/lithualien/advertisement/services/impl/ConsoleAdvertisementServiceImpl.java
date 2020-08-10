@@ -35,7 +35,7 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
     }
 
     @Override
-    public Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String category, String subCategory) {
+    public Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String subCategory) {
         return super
                 .abstractAll(pageable)
                 .map(this::convertToVOWithImage);
