@@ -35,10 +35,15 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
     }
 
     @Override
-    public Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String subCategory) {
+    public Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable) {
         return super
                 .abstractAll(pageable)
                 .map(this::convertToVOWithImage);
+    }
+
+    @Override
+    public Page<ConsoleAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
+        return null;
     }
 
     @Override
@@ -53,7 +58,7 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
     }
 
     @Override
-    public Page<ConsoleAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id, String subCategory) {
+    public Page<ConsoleAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
         User user = super.getUserById(id);
         return consoleAdvertisementRepository
                 .findAllByUser(pageable, user)

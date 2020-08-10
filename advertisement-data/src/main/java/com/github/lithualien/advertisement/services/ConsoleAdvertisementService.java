@@ -9,13 +9,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface ConsoleAdvertisementService {
 
-    Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable, String subCategory);
+    Page<ConsoleAdvertisementWithImageVO> all(Pageable pageable);
+
+    Page<ConsoleAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory);
 
     ConsoleAdvertisementWithImageVO findById(Long id);
 
     ConsoleAdvertisement findEntityById(Long id);
 
-    Page<ConsoleAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id, String subCategory);
+    Page<ConsoleAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id);
 
     Page<ConsoleAdvertisementWithImageVO> findSearch(Pageable pageable, ConsoleAdvertisementSearchVO searchVO);
 

@@ -18,7 +18,7 @@ public interface MonitorAdvertisementService {
 
     MonitorAdvertisement findEntityById(Long id);
 
-    Page<MonitorAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id, String subCategory);
+    Page<MonitorAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id);
 
     Page<MonitorAdvertisementWithImageVO> findSearch(Pageable pageable,
                                                             MonitorAdvertisementSearchVO searchVO);

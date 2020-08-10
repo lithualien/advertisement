@@ -35,10 +35,15 @@ public class ExternalDeviceAdvertisementServiceImpl
     }
 
     @Override
-    public Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String subCategory) {
+    public Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable) {
         return super
                 .abstractAll(pageable)
                 .map(this::convertToVOWithImage);
+    }
+
+    @Override
+    public Page<ExternalDeviceAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
+        return null;
     }
 
     @Override
@@ -53,7 +58,7 @@ public class ExternalDeviceAdvertisementServiceImpl
     }
 
     @Override
-    public Page<ExternalDeviceAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id, String subCategory) {
+    public Page<ExternalDeviceAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
         User user = super.getUserById(id);
         return externalDeviceRepository
                 .findAllByUser(pageable, user)

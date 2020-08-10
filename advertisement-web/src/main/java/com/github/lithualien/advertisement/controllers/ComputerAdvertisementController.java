@@ -1,6 +1,5 @@
 package com.github.lithualien.advertisement.controllers;
 
-import com.github.lithualien.advertisement.repositories.SearchRepository;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.ComputerImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
@@ -24,86 +23,93 @@ import java.util.List;
 @RequestMapping("api/computers/v1")
 public class ComputerAdvertisementController {
 
-    private final ComputerAdvertisementService computerAdvertisementService;
+    private final ComputerAdvertisementService advertisementService;
     private final ComputerImageService computerImageService;
     private final PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler;
 
-    public ComputerAdvertisementController(ComputerAdvertisementService computerAdvertisementService,
+    public ComputerAdvertisementController(ComputerAdvertisementService advertisementService,
                                            ComputerImageService computerImageService,
                                            PagedResourcesAssembler<ComputerAdvertisementWithImageVO> assembler) {
-        this.computerAdvertisementService = computerAdvertisementService;
+        this.advertisementService = advertisementService;
         this.computerImageService = computerImageService;
         this.assembler = assembler;
     }
 
     @GetMapping
-    public ResponseEntity<?> getAdvertisements(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    public ResponseEntity<?> all(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                 @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(computerAdvertisementService.all(pageable)), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{subCategory}")
+    public ResponseEntity<?> getBySubCategory(@PathVariable("subCategory") String subCategory,
+                                              @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                              @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                              @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
+        Pageable pageable = getPageable(page, size, sort);
+
+        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
+                HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ComputerAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(computerAdvertisementService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(advertisementService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getAdvertisementById(
-            @PathVariable("id") Long id,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    public ResponseEntity<?> getAdvertisementById(@PathVariable("id") Long id,
+                                                  @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                  @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                                  @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(computerAdvertisementService.findByUserId(pageable, id)), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)), HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(
-            @Valid @RequestBody ComputerAdvertisementSearchVO searchVO,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    public ResponseEntity<?> search(@Valid @RequestBody ComputerAdvertisementSearchVO searchVO,
+                                    @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                    @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
         Page<ComputerAdvertisementWithImageVO> advertisements
-                = computerAdvertisementService.findAllBaseOnSearch(pageable, searchVO);
+                = advertisementService.findAllBaseOnSearch(pageable, searchVO);
 
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ComputerAdvertisementWithImageVO> saveAdvertisement(
-            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO,
-            Authentication authentication) {
-        return new ResponseEntity<>(computerAdvertisementService.save(computerAdvertisementVO, authentication.getName()),
+            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO, Authentication authentication) {
+        return new ResponseEntity<>(advertisementService.save(computerAdvertisementVO, authentication.getName()),
                 HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<ComputerAdvertisementVO> updateAdvertisement(
-            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO,
-            Authentication authentication) {
-        return new ResponseEntity<>(computerAdvertisementService.update(computerAdvertisementVO, authentication.getName()),
+            @Valid @RequestBody ComputerAdvertisementVO computerAdvertisementVO, Authentication authentication) {
+        return new ResponseEntity<>(advertisementService.update(computerAdvertisementVO, authentication.getName()),
                 HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id, Authentication authentication) {
-        computerAdvertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName());
     }
 
     @PostMapping("/images/upload")
-    public ResponseEntity<ComputerAdvertisementVO> uploadImages(
-            @RequestParam("advertisement") Long advertisement,
-            @RequestParam("images") List<MultipartFile> multipartFiles,
-            Authentication authentication) {
+    public ResponseEntity<ComputerAdvertisementVO> uploadImages(@RequestParam("advertisement") Long advertisement,
+                                                            @RequestParam("images") List<MultipartFile> multipartFiles,
+                                                            Authentication authentication) {
 
         ComputerAdvertisementWithImageVO advertisementWithImageVO =
                 computerImageService.upload(multipartFiles, advertisement, authentication.getName());

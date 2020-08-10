@@ -40,6 +40,11 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
     }
 
     @Override
+    public Page<PhoneAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
+        return null;
+    }
+
+    @Override
     public PhoneAdvertisementWithImageVO findById(Long id) {
         PhoneAdvertisement advertisement = super.getAdvertisementById(id);
         return convertToVOWithImage(advertisement);

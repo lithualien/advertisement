@@ -9,13 +9,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface ExternalDeviceAdvertisementService {
 
-    Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable, String subCategory);
+    Page<ExternalDeviceAdvertisementWithImageVO> all(Pageable pageable);
+
+    Page<ExternalDeviceAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory);
 
     ExternalDeviceAdvertisementWithImageVO findById(Long id);
 
     ExternalDeviceAdvertisement findEntityById(Long id);
 
-    Page<ExternalDeviceAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id, String subCategory);
+    Page<ExternalDeviceAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id);
 
     Page<ExternalDeviceAdvertisementWithImageVO> findSearch(Pageable pageable,
                                                             ExternalDeviceAdvertisementSearchVO searchVO);

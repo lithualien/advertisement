@@ -1,6 +1,5 @@
 package com.github.lithualien.advertisement.services;
 
-import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.models.PhoneAdvertisement;
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementVO;
@@ -11,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 public interface PhoneAdvertisementService {
 
     Page<PhoneAdvertisementWithImageVO> all(Pageable pageable);
+
+    Page<PhoneAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory);
 
     PhoneAdvertisementWithImageVO findById(Long id);
 

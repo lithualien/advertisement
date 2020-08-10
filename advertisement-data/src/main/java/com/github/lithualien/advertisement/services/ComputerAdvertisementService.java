@@ -10,6 +10,8 @@ public interface ComputerAdvertisementService {
 
     Page<ComputerAdvertisementWithImageVO> all(Pageable pageable);
 
+    Page<ComputerAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory);
+
     ComputerAdvertisementWithImageVO save(ComputerAdvertisementVO computerAdvertisementVO,
                                                   String username);
 

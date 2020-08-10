@@ -34,42 +34,52 @@ public class ConsoleAdvertisementController {
         this.consoleImageService = consoleImageService;
     }
 
-    @GetMapping("/all/{subCategory}")
-    public ResponseEntity<?> getAdvertisements(
-            @PathVariable("subCategory") String subCategory,
+    @GetMapping
+    public ResponseEntity<?> all(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "15") Integer size,
             @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable, subCategory)), HttpStatus.OK);
+        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
     }
+
+    @GetMapping("/all/{subCategory}")
+    public ResponseEntity<?> getBySubCategory(@PathVariable("subCategory") String subCategory,
+                                              @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                              @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                              @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
+        Pageable pageable = getPageable(page, size, sort);
+
+        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
+                HttpStatus.OK);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ConsoleAdvertisementWithImageVO> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(advertisementService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}/{subCategory}")
-    public ResponseEntity<?> getAdvertisementById(
-            @PathVariable("userId") Long id,
-            @PathVariable("subCategory") String subCategory,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getAdvertisementById(@PathVariable("userId") Long id,
+                                                  @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                  @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                                  @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id, subCategory)),
+        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)),
                 HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(
-            @Valid @RequestBody ConsoleAdvertisementSearchVO searchVO,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    public ResponseEntity<?> search(@Valid @RequestBody ConsoleAdvertisementSearchVO searchVO,
+                                    @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                    @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
 

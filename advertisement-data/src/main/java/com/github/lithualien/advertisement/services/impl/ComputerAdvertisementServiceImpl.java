@@ -47,6 +47,11 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     }
 
     @Override
+    public Page<ComputerAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
+        return null;
+    }
+
+    @Override
     public ComputerAdvertisementWithImageVO save(ComputerAdvertisementVO computerAdvertisementVO,
                                                          String username) {
         ComputerAdvertisement computerAdvertisement = convertVoToEntity(computerAdvertisementVO, username);

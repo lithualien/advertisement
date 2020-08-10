@@ -23,53 +23,64 @@ import java.util.List;
 @RequestMapping("api/phones/v1")
 public class PhoneAdvertisementController {
 
-    private final PhoneAdvertisementService phoneAdvertisementService;
+    private final PhoneAdvertisementService advertisementService;
     private final PagedResourcesAssembler<PhoneAdvertisementWithImageVO> assembler;
     private final PhoneImageService phoneImageService;
 
-    public PhoneAdvertisementController(PhoneAdvertisementService phoneAdvertisementService,
+    public PhoneAdvertisementController(PhoneAdvertisementService advertisementService,
                                         PagedResourcesAssembler<PhoneAdvertisementWithImageVO> assembler,
                                         PhoneImageService phoneImageService) {
-        this.phoneAdvertisementService = phoneAdvertisementService;
+        this.advertisementService = advertisementService;
         this.assembler = assembler;
         this.phoneImageService = phoneImageService;
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
-            Pageable pageable = getPageable(page, size, sort);
+    public ResponseEntity<?> all(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                 @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
-            return new ResponseEntity<>(assembler.toModel(phoneAdvertisementService.all(pageable)), HttpStatus.OK);
+        Pageable pageable = getPageable(page, size, sort);
+        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{subCategory}")
+    public ResponseEntity<?> getAdvertisements(@PathVariable("subCategory") String subCategory,
+                                               @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                               @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                               @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
+        Pageable pageable = getPageable(page, size, sort);
+
+        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
+                HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PhoneAdvertisementWithImageVO> getById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(phoneAdvertisementService.findById(id),HttpStatus.OK);
+        return new ResponseEntity<>(advertisementService.findById(id),HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<?> findByUserId(
-            @PathVariable("id") Long id,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> findByUserId(@PathVariable("id") Long id,
+                                          @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                          @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                          @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
-        Page<PhoneAdvertisementWithImageVO> advertisements = phoneAdvertisementService.findByUserId(pageable, id);
+        Page<PhoneAdvertisementWithImageVO> advertisements = advertisementService.findByUserId(pageable, id);
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> findSearch(
-            @Valid @RequestBody PhoneAdvertisementSearchVO phoneAdvertisementSearchVO,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "15") Integer size,
-            @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+    public ResponseEntity<?> findSearch(@Valid @RequestBody PhoneAdvertisementSearchVO phoneAdvertisementSearchVO,
+                                        @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                        @RequestParam(value = "size", defaultValue = "15") Integer size,
+                                        @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
         Pageable pageable = getPageable(page, size, sort);
         Page<PhoneAdvertisementWithImageVO> advertisements
-                = phoneAdvertisementService.findSearch(pageable, phoneAdvertisementSearchVO);
+                = advertisementService.findSearch(pageable, phoneAdvertisementSearchVO);
+
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
@@ -77,7 +88,7 @@ public class PhoneAdvertisementController {
     public ResponseEntity<PhoneAdvertisementVO> save(@Valid @RequestBody PhoneAdvertisementVO phoneAdvertisementVO,
                                                      Authentication authentication) {
         PhoneAdvertisementVO savedAdvertisementVO
-                = phoneAdvertisementService.save(phoneAdvertisementVO, authentication.getName());
+                = advertisementService.save(phoneAdvertisementVO, authentication.getName());
 
         return new ResponseEntity<>(savedAdvertisementVO, HttpStatus.OK);
     }
@@ -86,7 +97,7 @@ public class PhoneAdvertisementController {
     public ResponseEntity<PhoneAdvertisementVO> update(@Valid @RequestBody PhoneAdvertisementVO phoneAdvertisementVO,
                                                      Authentication authentication) {
         PhoneAdvertisementVO updatedAdvertisementVO
-                = phoneAdvertisementService.update(phoneAdvertisementVO, authentication.getName());
+                = advertisementService.update(phoneAdvertisementVO, authentication.getName());
 
         return new ResponseEntity<>(updatedAdvertisementVO, HttpStatus.OK);
     }
@@ -94,24 +105,24 @@ public class PhoneAdvertisementController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id, Authentication authentication) {
-        phoneAdvertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName());
     }
 
     @PostMapping("/images/upload")
     public ResponseEntity<PhoneAdvertisementWithImageVO> uploadImages(
             @RequestParam("advertisement") Long advertisement,
-            @RequestParam("images") List<MultipartFile> multipartFiles,
-            Authentication authentication) {
+            @RequestParam("images") List<MultipartFile> multipartFiles, Authentication authentication) {
 
         PhoneAdvertisementWithImageVO advertisementVO
                 = phoneImageService.upload(multipartFiles, advertisement, authentication.getName());
+
         return new ResponseEntity<>(advertisementVO, HttpStatus.OK);
     }
 
     @DeleteMapping("/images/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
-        phoneAdvertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName());
     }
 
     private Pageable getPageable(Integer page, Integer size, String sort) {
