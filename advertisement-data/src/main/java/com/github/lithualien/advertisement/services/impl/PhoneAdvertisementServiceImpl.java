@@ -7,7 +7,9 @@ import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.PhoneAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.*;
+import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementSearchVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -94,7 +96,7 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
                 .entityToVO(phoneAdvertisement, userPersonalInformationVO);
     }
 
-    public PhoneAdvertisement convertVoToEntity(PhoneAdvertisementVO phoneAdvertisementVO, String username) {
+    private PhoneAdvertisement convertVoToEntity(PhoneAdvertisementVO phoneAdvertisementVO, String username) {
         return PhoneAdvertisementConverter.voToEntity(
                 phoneAdvertisementVO,
                 super.getTypeByName(phoneAdvertisementVO.getType()),
