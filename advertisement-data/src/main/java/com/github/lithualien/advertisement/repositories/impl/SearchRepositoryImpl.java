@@ -47,7 +47,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                                 .createQuery()
                 );
 
-        if(searchVO.getCity() != null) {
+        if(!searchVO.getCity().equals("")) {
             booleanJunction
                     .must(
                             queryBuilder
@@ -58,7 +58,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getCpu() != null) {
+        if(!searchVO.getCpu().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -72,7 +72,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getGpu() != null) {
+        if(!searchVO.getGpu().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -86,7 +86,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getRam() != null) {
+        if(!searchVO.getRam().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -100,7 +100,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getMemory() != null) {
+        if(!searchVO.getMemory().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -114,7 +114,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getMemory() != null) {
+        if(!searchVO.getMotherboard().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -123,7 +123,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .withEditDistanceUpTo(1)
                                     .withPrefixLength(0)
                                     .onField("motherboard")
-                                    .matching(searchVO.getMemory())
+                                    .matching(searchVO.getMotherboard())
                                     .createQuery()
                     );
         }
@@ -159,7 +159,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                         .createQuery()
                 );
 
-        if(searchVO.getCity() != null) {
+        if(!searchVO.getCity().equals("")) {
             booleanJunction
                     .must(
                             queryBuilder
@@ -170,7 +170,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getManufacturer() != null) {
+        if(!searchVO.getManufacturer().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -182,7 +182,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getModel() != null) {
+        if(!searchVO.getModel().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -194,7 +194,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getOs() != null) {
+        if(!searchVO.getOs().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -206,7 +206,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getCamera() != null) {
+        if(!searchVO.getCamera().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -218,7 +218,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getRam() != null) {
+        if(!searchVO.getRam().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder
@@ -230,7 +230,7 @@ public class SearchRepositoryImpl implements SearchRepository {
                     );
         }
 
-        if(searchVO.getMemory() != null) {
+        if(!searchVO.getMemory().equals("")) {
             booleanJunction
                     .should(
                             queryBuilder

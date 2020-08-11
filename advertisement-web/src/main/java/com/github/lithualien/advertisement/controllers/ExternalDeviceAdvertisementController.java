@@ -5,6 +5,8 @@ import com.github.lithualien.advertisement.services.ExternalDeviceImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementWithImageVO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,7 +42,11 @@ public class ExternalDeviceAdvertisementController {
                                  @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+        Page<ExternalDeviceAdvertisementWithImageVO> advertisements = advertisementService.all(pageable);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -51,7 +57,12 @@ public class ExternalDeviceAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
+        Page<ExternalDeviceAdvertisementWithImageVO> advertisements
+                = advertisementService.findBySubCategory(pageable, subCategory);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements),
                 HttpStatus.OK);
     }
 
@@ -68,8 +79,11 @@ public class ExternalDeviceAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)),
-                HttpStatus.OK);
+        Page<ExternalDeviceAdvertisementWithImageVO> advertisements = advertisementService.findByUserId(pageable, id);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping("/search")
@@ -106,8 +120,10 @@ public class ExternalDeviceAdvertisementController {
     public ResponseEntity<ExternalDeviceAdvertisementWithImageVO> uploadImages(
             @RequestParam("advertisement") Long advertisement,
             @RequestParam("images") List<MultipartFile> multipartFiles, Authentication authentication) {
+
         ExternalDeviceAdvertisementWithImageVO advertisementWithImageVO
                 = externalDeviceImageService.upload(multipartFiles, advertisement, authentication.getName());
+
         return new ResponseEntity<>(advertisementWithImageVO, HttpStatus.OK);
     }
 
@@ -120,8 +136,18 @@ public class ExternalDeviceAdvertisementController {
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+    }
+
+    private Page<ExternalDeviceAdvertisementWithImageVO> isEmptyPage(
+            Page<ExternalDeviceAdvertisementWithImageVO> advertisements, Pageable pageable) {
+        if(advertisements == null) {
+            return Page.empty(pageable);
+        }
+        return advertisements;
     }
 }

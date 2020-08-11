@@ -9,6 +9,7 @@ import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
+import java.io.Console;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,5 +41,14 @@ public class City extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Set<PhoneAdvertisement> phoneAdvertisements = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private Set<ConsoleAdvertisement> consoleAdvertisements = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private Set<ExternalDeviceAdvertisement> externalDeviceAdvertisements = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private Set<MonitorAdvertisement> monitorAdvertisements = new HashSet<>();
 
 }

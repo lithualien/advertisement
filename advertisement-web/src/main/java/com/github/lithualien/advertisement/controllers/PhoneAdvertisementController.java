@@ -41,7 +41,12 @@ public class PhoneAdvertisementController {
                                  @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+
+        Page<PhoneAdvertisementWithImageVO> advertisements = advertisementService.all(pageable);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -52,8 +57,12 @@ public class PhoneAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
-                HttpStatus.OK);
+        Page<PhoneAdvertisementWithImageVO> advertisements
+                = advertisementService.findBySubCategory(pageable, subCategory);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -66,8 +75,13 @@ public class PhoneAdvertisementController {
                                           @RequestParam(value = "page", defaultValue = "0") Integer page,
                                           @RequestParam(value = "size", defaultValue = "15") Integer size,
                                           @RequestParam(value = "sort", defaultValue = "desc") String sort) {
+
         Pageable pageable = getPageable(page, size, sort);
+
         Page<PhoneAdvertisementWithImageVO> advertisements = advertisementService.findByUserId(pageable, id);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
@@ -80,6 +94,8 @@ public class PhoneAdvertisementController {
         Pageable pageable = getPageable(page, size, sort);
         Page<PhoneAdvertisementWithImageVO> advertisements
                 = advertisementService.findSearch(pageable, phoneAdvertisementSearchVO);
+
+        advertisements = isEmptyPage(advertisements, pageable);
 
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
@@ -128,9 +144,19 @@ public class PhoneAdvertisementController {
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+    }
+
+    private Page<PhoneAdvertisementWithImageVO> isEmptyPage(Page<PhoneAdvertisementWithImageVO> advertisements,
+                                                              Pageable pageable) {
+        if(advertisements == null) {
+            return Page.empty(pageable);
+        }
+        return advertisements;
     }
 
 }

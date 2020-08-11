@@ -33,6 +33,24 @@ public class SubCategory extends BaseEntity {
 
     @Mapping("this")
     @OneToMany(mappedBy = "subCategory")
-    private Set<ComputerAdvertisement> advertisements = new HashSet<>();
+    private Set<ComputerAdvertisement> computerAdvertisements = new HashSet<>();
+
+    @Mapping("this")
+    @OneToMany(mappedBy = "subCategory")
+    private Set<PhoneAdvertisement> phoneAdvertisements = new HashSet<>();
+
+    @Mapping("this")
+    @OneToMany(mappedBy = "subCategory")
+    private Set<ExternalDeviceAdvertisement> externalDeviceAdvertisements = new HashSet<>();
+
+    @Mapping("this")
+    @OneToMany(mappedBy = "subCategory")
+    private Set<ConsoleAdvertisement> consoleAdvertisements = new HashSet<>();
+
+    @Mapping("this")
+    @OneToMany(mappedBy = "subCategory")
+    private Set<MonitorAdvertisement> monitorAdvertisements = new HashSet<>();
+
+
 
 }

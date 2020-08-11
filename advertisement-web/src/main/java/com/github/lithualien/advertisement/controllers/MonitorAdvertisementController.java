@@ -1,12 +1,12 @@
 package com.github.lithualien.advertisement.controllers;
 
+import com.github.lithualien.advertisement.models.superclass.Advertisement;
 import com.github.lithualien.advertisement.services.MonitorAdvertisementService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.json.JSONObject;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,8 @@ public class MonitorAdvertisementController {
     private final MonitorAdvertisementService advertisementService;
     private final PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler;
 
-    public MonitorAdvertisementController(MonitorAdvertisementService advertisementService, PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler) {
+    public MonitorAdvertisementController(MonitorAdvertisementService advertisementService,
+                                          PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler) {
         this.advertisementService = advertisementService;
         this.assembler = assembler;
     }
@@ -34,7 +35,12 @@ public class MonitorAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+        Page<MonitorAdvertisementWithImageVO> advertisements
+                = advertisementService.all(pageable);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -45,8 +51,12 @@ public class MonitorAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
-                HttpStatus.OK);
+        Page<MonitorAdvertisementWithImageVO> advertisements
+                = advertisementService.findBySubCategory(pageable, subCategory);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -62,8 +72,12 @@ public class MonitorAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)),
-                HttpStatus.OK);
+        Page<MonitorAdvertisementWithImageVO> advertisements
+                = advertisementService.findByUserId(pageable, id);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping("/search")
@@ -100,8 +114,18 @@ public class MonitorAdvertisementController {
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+    }
+
+    private Page<MonitorAdvertisementWithImageVO> isEmptyPage(Page<MonitorAdvertisementWithImageVO> advertisements,
+                                                              Pageable pageable) {
+        if(advertisements == null) {
+            return Page.empty(pageable);
+        }
+        return advertisements;
     }
 }

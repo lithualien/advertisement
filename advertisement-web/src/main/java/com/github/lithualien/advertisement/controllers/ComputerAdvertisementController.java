@@ -5,6 +5,7 @@ import com.github.lithualien.advertisement.services.ComputerImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,11 @@ public class ComputerAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+        Page<ComputerAdvertisementWithImageVO> advertisements = advertisementService.all(pageable);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -53,8 +58,12 @@ public class ComputerAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
-                HttpStatus.OK);
+        Page<ComputerAdvertisementWithImageVO> advertisements
+                = advertisementService.findBySubCategory(pageable, subCategory);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
 
     }
 
@@ -70,7 +79,11 @@ public class ComputerAdvertisementController {
                                                   @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)), HttpStatus.OK);
+        Page<ComputerAdvertisementWithImageVO> advertisements = advertisementService.findByUserId(pageable, id);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping("/search")
@@ -80,8 +93,11 @@ public class ComputerAdvertisementController {
                                     @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
+
         Page<ComputerAdvertisementWithImageVO> advertisements
                 = advertisementService.findAllBaseOnSearch(pageable, searchVO);
+
+        advertisements = isEmptyPage(advertisements, pageable);
 
         return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
@@ -126,8 +142,18 @@ public class ComputerAdvertisementController {
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+    }
+
+    private Page<ComputerAdvertisementWithImageVO> isEmptyPage(Page<ComputerAdvertisementWithImageVO> advertisements,
+                                                              Pageable pageable) {
+        if(advertisements == null) {
+            return Page.empty(pageable);
+        }
+        return advertisements;
     }
 }

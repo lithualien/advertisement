@@ -5,6 +5,8 @@ import com.github.lithualien.advertisement.services.ConsoleImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -42,7 +44,11 @@ public class ConsoleAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.all(pageable)), HttpStatus.OK);
+        Page<ConsoleAdvertisementWithImageVO> advertisements = advertisementService.all(pageable);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @GetMapping("/all/{subCategory}")
@@ -53,8 +59,12 @@ public class ConsoleAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findBySubCategory(pageable, subCategory)),
-                HttpStatus.OK);
+        Page<ConsoleAdvertisementWithImageVO> advertisements
+                = advertisementService.findBySubCategory(pageable, subCategory);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
 
@@ -71,8 +81,11 @@ public class ConsoleAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return new ResponseEntity<>(assembler.toModel(advertisementService.findByUserId(pageable, id)),
-                HttpStatus.OK);
+        Page<ConsoleAdvertisementWithImageVO> advertisements = advertisementService.findByUserId(pageable, id);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping("/search")
@@ -125,9 +138,19 @@ public class ConsoleAdvertisementController {
     private Pageable getPageable(Integer page, Integer size, String sort) {
         String[] array = sort.split(",");
 
-        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.Direction sortOrder = "asc".equalsIgnoreCase(array[array.length - 1]) ?
+                Sort.Direction.ASC :
+                Sort.Direction.DESC;
 
         return PageRequest.of(page, size, Sort.by(sortOrder,  "id"));
+    }
+
+    private Page<ConsoleAdvertisementWithImageVO> isEmptyPage(Page<ConsoleAdvertisementWithImageVO> advertisements,
+                                                              Pageable pageable) {
+        if(advertisements == null) {
+            return Page.empty(pageable);
+        }
+        return advertisements;
     }
 
 }
