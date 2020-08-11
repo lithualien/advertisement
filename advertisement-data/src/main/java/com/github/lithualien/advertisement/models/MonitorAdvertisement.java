@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Indexed
 @Entity
-@Table(name = "monitor_advertisement")
+@Table(name = "monitor_advertisements")
 public class MonitorAdvertisement extends Advertisement {
 
     @Mapping("this")
