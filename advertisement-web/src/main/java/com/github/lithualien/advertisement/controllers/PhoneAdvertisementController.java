@@ -122,7 +122,7 @@ public class PhoneAdvertisementController {
     @DeleteMapping("/images/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
-        advertisementService.delete(id, authentication.getName());
+        phoneImageService.delete(id, authentication.getName());
     }
 
     private Pageable getPageable(Integer page, Integer size, String sort) {

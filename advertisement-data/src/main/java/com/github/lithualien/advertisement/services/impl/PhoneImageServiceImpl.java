@@ -36,7 +36,7 @@ public class PhoneImageServiceImpl extends AbstractImageService<PhoneImage> impl
     public void delete(Long id, String username) {
         PhoneImage image = abstractGetImage(id);
         PhoneAdvertisement phoneAdvertisement =
-                phoneAdvertisementService.findEntityById(id);
+                phoneAdvertisementService.findEntityById(image.getPhoneAdvertisement().getId());
         phoneAdvertisementService.isAdvertisementCreator(phoneAdvertisement, username);
         super.abstractDelete(image);
     }

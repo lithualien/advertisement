@@ -1,6 +1,6 @@
 package com.github.lithualien.advertisement.repositories;
 
-import com.github.lithualien.advertisement.models.MonitorAdvertisement;
+import com.github.lithualien.advertisement.models.MonitorImage;
 
-public interface MonitorImageRepository extends AdvertisementRepository<MonitorAdvertisement> {
+public interface MonitorImageRepository extends ImageRepository<MonitorImage> {
 }
