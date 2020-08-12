@@ -403,8 +403,6 @@ public class SearchRepositoryImpl implements SearchRepository {
 
         Sort sort = getSort();
 
-        Query query = booleanJunction.createQuery();
-
         if(!searchVO.getSubCategory().equals("")){
             booleanJunction
                     .must(
@@ -484,6 +482,8 @@ public class SearchRepositoryImpl implements SearchRepository {
                                     .createQuery()
                     );
         }
+
+        Query query = booleanJunction.createQuery();
 
         List<MonitorAdvertisement> advertisements
                 = getJpaQuery(query, PhoneAdvertisement.class, pageable)
