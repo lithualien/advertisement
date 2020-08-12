@@ -7,7 +7,13 @@ import com.github.lithualien.advertisement.exceptions.ResourceAlreadyExistsExcep
 import com.github.lithualien.advertisement.exceptions.ResourceNotFoundException;
 import com.github.lithualien.advertisement.exceptions.UnsupportedMediaType;
 import com.github.lithualien.advertisement.vo.v1.ExceptionVO;
+import org.hibernate.search.exception.SearchException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +70,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public final ResponseEntity<ExceptionVO> handleUnauthorizedExceptions(Exception exception, WebRequest webRequest) {
         return new ResponseEntity<>(getExceptionResponse(exception.getMessage(), HttpStatus.UNAUTHORIZED.value(),
                 webRequest.getDescription(false)), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler( { SearchException.class } )
+    public final ResponseEntity<?> handleSearchException() {
+        return new ResponseEntity<>(Page.empty(), HttpStatus.OK);
     }
 
     @Override

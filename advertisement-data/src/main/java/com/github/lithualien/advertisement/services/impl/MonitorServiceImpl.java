@@ -2,6 +2,7 @@ package com.github.lithualien.advertisement.services.impl;
 
 import com.github.lithualien.advertisement.converters.MonitorAdvertisementConverter;
 import com.github.lithualien.advertisement.models.MonitorAdvertisement;
+import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.MonitorAdvertisementService;
@@ -40,7 +41,10 @@ public class MonitorServiceImpl extends AbstractAdvertisementService<MonitorAdve
 
     @Override
     public Page<MonitorAdvertisementWithImageVO> findBySubCategory(Pageable pageable, String subCategory) {
-        return null;
+        SubCategory subCategory1 = super.getSubCategoryByName(subCategory);
+        return monitorAdvertisementRepository
+                .findAllBySubCategory(pageable, subCategory1)
+                .map(this::convertToVOWithImage);
     }
 
     @Override
@@ -62,11 +66,11 @@ public class MonitorServiceImpl extends AbstractAdvertisementService<MonitorAdve
                 .map(this::convertToVOWithImage);
     }
 
-    // todo implement search.
-
     @Override
     public Page<MonitorAdvertisementWithImageVO> findSearch(Pageable pageable, MonitorAdvertisementSearchVO searchVO) {
-        return null;
+        return searchRepository
+                .searchMonitor(pageable, searchVO)
+                .map(this::convertToVOWithImage);
     }
 
     @Override

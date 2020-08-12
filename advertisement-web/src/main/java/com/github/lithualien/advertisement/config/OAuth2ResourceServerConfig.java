@@ -22,7 +22,9 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .authorizeRequests()
                 .antMatchers("/webjars/**", "/v2/**", "/swagger-ui.html**", "/swagger-resources/**",
                         "/api/users/v1/register", "/api/users/v1/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/computers/v1/search").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/computers/v1/search", "/api/phones/v1/search",
+                        "/api/monitors/v1/search", "/api/external_devices/v1/search",
+                        "/api/consoles/v1/search").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/cities/**", "/api/counties/**", "/api/categories/**",
                         "/api/sub-categories/**").hasAnyAuthority("ADMIN", "MANAGER")
                 .antMatchers(HttpMethod.PUT,"/api/cities/**", "/api/counties/**", "/api/categories/**",

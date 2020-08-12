@@ -69,11 +69,11 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
                 .map(this::convertToVOWithImage);
     }
 
-    // todo implement search.
-
     @Override
     public Page<ConsoleAdvertisementWithImageVO> findSearch(Pageable pageable, ConsoleAdvertisementSearchVO searchVO) {
-        return null;
+        return searchRepository
+                .searchConsole(pageable, searchVO)
+                .map(this::convertToVOWithImage);
     }
 
 

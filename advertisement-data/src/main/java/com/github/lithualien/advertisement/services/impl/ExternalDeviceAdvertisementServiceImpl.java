@@ -69,12 +69,13 @@ public class ExternalDeviceAdvertisementServiceImpl
                 .map(this::convertToVOWithImage);
     }
 
-    // todo implement search
     @Override
     public Page<ExternalDeviceAdvertisementWithImageVO> findSearch(Pageable pageable,
                                                                    ExternalDeviceAdvertisementSearchVO searchVO) {
 
-        return null;
+        return searchRepository
+                .searchExternalDevice(pageable, searchVO)
+                .map(this::convertToVOWithImage);
     }
 
     @Override

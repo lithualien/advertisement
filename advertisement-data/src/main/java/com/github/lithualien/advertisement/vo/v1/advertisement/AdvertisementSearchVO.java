@@ -17,7 +17,6 @@ public abstract class AdvertisementSearchVO implements Serializable {
 
     protected String city;
 
-    @NotBlank(message = "sub_category field is requried")
     @JsonProperty("sub_category")
     protected String subCategory;
 

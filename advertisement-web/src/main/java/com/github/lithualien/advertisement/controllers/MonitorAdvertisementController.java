@@ -1,30 +1,33 @@
 package com.github.lithualien.advertisement.controllers;
 
-import com.github.lithualien.advertisement.models.superclass.Advertisement;
 import com.github.lithualien.advertisement.services.MonitorAdvertisementService;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
+import com.github.lithualien.advertisement.services.MonitorImageService;
+import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
-import org.json.JSONObject;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/monitors/v1")
 public class MonitorAdvertisementController {
 
     private final MonitorAdvertisementService advertisementService;
+    private final MonitorImageService monitorImageService;
     private final PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler;
 
     public MonitorAdvertisementController(MonitorAdvertisementService advertisementService,
-                                          PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler) {
+                                          MonitorImageService monitorImageService, PagedResourcesAssembler<MonitorAdvertisementWithImageVO> assembler) {
         this.advertisementService = advertisementService;
+        this.monitorImageService = monitorImageService;
         this.assembler = assembler;
     }
 
@@ -35,8 +38,7 @@ public class MonitorAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        Page<MonitorAdvertisementWithImageVO> advertisements
-                = advertisementService.all(pageable);
+        Page<MonitorAdvertisementWithImageVO> advertisements = advertisementService.all(pageable);
 
         advertisements = isEmptyPage(advertisements, pageable);
 
@@ -81,14 +83,18 @@ public class MonitorAdvertisementController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@Valid @RequestBody ConsoleAdvertisementSearchVO searchVO,
+    public ResponseEntity<?> search(@Valid @RequestBody MonitorAdvertisementSearchVO searchVO,
                                     @RequestParam(value = "page", defaultValue = "0") Integer page,
                                     @RequestParam(value = "size", defaultValue = "15") Integer size,
                                     @RequestParam(value = "sort", defaultValue = "desc") String sort) {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return null;
+        Page<MonitorAdvertisementWithImageVO> advertisements = advertisementService.findSearch(pageable, searchVO);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping
@@ -109,6 +115,23 @@ public class MonitorAdvertisementController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete (@PathVariable("id") Long id, Authentication authentication) {
         advertisementService.delete(id, authentication.getName());
+    }
+
+    @PostMapping("/images/upload")
+    public ResponseEntity<MonitorAdvertisementWithImageVO> uploadImage(
+            @RequestParam("advertisement") Long advertisement,
+            @RequestParam("images") List<MultipartFile> multipartFiles, Authentication authentication) {
+
+        MonitorAdvertisementWithImageVO advertisementWithImageVO
+                = monitorImageService.upload(multipartFiles, advertisement, authentication.getName());
+
+        return new ResponseEntity<>(advertisementWithImageVO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/images/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImage(@PathVariable("id") Long id, Authentication authentication) {
+        monitorImageService.delete(id, authentication.getName());
     }
 
     private Pageable getPageable(Integer page, Integer size, String sort) {

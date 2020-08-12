@@ -93,7 +93,12 @@ public class ExternalDeviceAdvertisementController {
                                     @RequestParam(value = "sort", defaultValue = "desc") String sort) {
         Pageable pageable = getPageable(page, size, sort);
 
-        return null;
+        Page<ExternalDeviceAdvertisementWithImageVO> advertisements
+                = advertisementService.findSearch(pageable, searchVO);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping

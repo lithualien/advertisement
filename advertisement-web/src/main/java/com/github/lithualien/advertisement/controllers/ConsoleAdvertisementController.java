@@ -96,7 +96,11 @@ public class ConsoleAdvertisementController {
 
         Pageable pageable = getPageable(page, size, sort);
 
-        return null;
+        Page<ConsoleAdvertisementWithImageVO> advertisements = advertisementService.findSearch(pageable, searchVO);
+
+        advertisements = isEmptyPage(advertisements, pageable);
+
+        return new ResponseEntity<>(assembler.toModel(advertisements), HttpStatus.OK);
     }
 
     @PostMapping

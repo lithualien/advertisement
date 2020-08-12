@@ -1,11 +1,8 @@
 package com.github.lithualien.advertisement.repositories.impl;
 
-import com.github.lithualien.advertisement.models.City;
-import com.github.lithualien.advertisement.models.ComputerAdvertisement;
-import com.github.lithualien.advertisement.models.PhoneAdvertisement;
+import com.github.lithualien.advertisement.models.*;
 import com.github.lithualien.advertisement.repositories.SearchRepository;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementSearchVO;
+import com.github.lithualien.advertisement.vo.v1.advertisement.*;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -38,14 +35,16 @@ public class SearchRepositoryImpl implements SearchRepository {
 
         BooleanJunction<?> booleanJunction = queryBuilder.bool();
 
-        booleanJunction
-                .must(
-                        queryBuilder
-                                .keyword()
-                                .onField("subCategory.subCategory")
-                                .matching(searchVO.getSubCategory())
-                                .createQuery()
-                );
+        if(!searchVO.getSubCategory().equals("")){
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("subCategory.subCategory")
+                                    .matching(searchVO.getSubCategory())
+                                    .createQuery()
+                    );
+        }
 
         if(!searchVO.getCity().equals("")) {
             booleanJunction
@@ -150,14 +149,17 @@ public class SearchRepositoryImpl implements SearchRepository {
 
         Sort sort = getSort();
 
-        booleanJunction
-                .must(
-                        queryBuilder
-                        .keyword()
-                        .onField("subCategory.subCategory")
-                        .matching(searchVO.getSubCategory())
-                        .createQuery()
-                );
+        if(!searchVO.getSubCategory().equals("")){
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("subCategory.subCategory")
+                                    .matching(searchVO.getSubCategory())
+                                    .createQuery()
+                    );
+        }
+
 
         if(!searchVO.getCity().equals("")) {
             booleanJunction
@@ -250,6 +252,245 @@ public class SearchRepositoryImpl implements SearchRepository {
                     .getResultList();
 
         return new PageImpl<>(phoneAdvertisements, pageable, phoneAdvertisements.size());
+    }
+
+    @Override
+    public Page<ConsoleAdvertisement> searchConsole(Pageable pageable, ConsoleAdvertisementSearchVO searchVO) {
+
+        QueryBuilder queryBuilder = getQueryBuilder(ConsoleAdvertisement.class);
+
+        BooleanJunction<?> booleanJunction = queryBuilder.bool();
+
+        Sort sort = getSort();
+
+        if(!searchVO.getSubCategory().equals("")){
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("subCategory.subCategory")
+                                    .matching(searchVO.getSubCategory())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getCity().equals("")) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("city.city")
+                                    .matching(searchVO.getCity())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getModel().equals("")){
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("model")
+                                    .matching(searchVO.getModel())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getMemory().equals("")) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("memory")
+                                    .matching(searchVO.getMemory())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getColor().equals("")){
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("color")
+                                    .matching(searchVO.getColor())
+                                    .createQuery()
+                    );
+        }
+
+        Query query = booleanJunction.createQuery();
+
+        List<ConsoleAdvertisement> advertisements
+                = getJpaQuery(query, PhoneAdvertisement.class, pageable)
+                .setSort(sort)
+                .getResultList();
+
+        return new PageImpl<>(advertisements, pageable, advertisements.size());
+    }
+
+    @Override
+    public Page<ExternalDeviceAdvertisement> searchExternalDevice(Pageable pageable, ExternalDeviceAdvertisementSearchVO searchVO) {
+
+        QueryBuilder queryBuilder = getQueryBuilder(ExternalDeviceAdvertisement.class);
+
+        BooleanJunction<?> booleanJunction = queryBuilder.bool();
+
+        Sort sort = getSort();
+
+        if(!searchVO.getSubCategory().equals("")){
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("subCategory.subCategory")
+                                    .matching(searchVO.getSubCategory())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getCity().equals("")) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("city.city")
+                                    .matching(searchVO.getCity())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getBrand().equals("")){
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("brand")
+                                    .matching(searchVO.getBrand())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getWireless().equals("")) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("wireless")
+                                    .matching(searchVO.getWireless())
+                                    .createQuery()
+                    );
+        }
+
+        Query query = booleanJunction.createQuery();
+
+        List<ExternalDeviceAdvertisement> advertisements
+                = getJpaQuery(query, PhoneAdvertisement.class, pageable)
+                .setSort(sort)
+                .getResultList();
+
+        return new PageImpl<>(advertisements, pageable, advertisements.size());
+    }
+
+    @Override
+    public Page<MonitorAdvertisement> searchMonitor(Pageable pageable, MonitorAdvertisementSearchVO searchVO) {
+
+        QueryBuilder queryBuilder = getQueryBuilder(MonitorAdvertisement.class);
+
+        BooleanJunction<?> booleanJunction = queryBuilder.bool();
+
+        Sort sort = getSort();
+
+        Query query = booleanJunction.createQuery();
+
+        if(!searchVO.getSubCategory().equals("")){
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("subCategory.subCategory")
+                                    .matching(searchVO.getSubCategory())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getCity().equals("")) {
+            booleanJunction
+                    .must(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("city.city")
+                                    .matching(searchVO.getCity())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getBrand().equals("")){
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("brand")
+                                    .matching(searchVO.getBrand())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getModel().equals("")) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("model")
+                                    .matching(searchVO.getModel())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getResolution().equals("")){
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("resolution")
+                                    .matching(searchVO.getResolution())
+                                    .createQuery()
+                    );
+        }
+
+
+        if(!searchVO.getRefreshRate().equals("")) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("refreshRate")
+                                    .matching(searchVO.getRefreshRate())
+                                    .createQuery()
+                    );
+        }
+
+        if(!searchVO.getResponseTime().equals("")) {
+            booleanJunction
+                    .should(
+                            queryBuilder
+                                    .keyword()
+                                    .onField("responseTime")
+                                    .matching(searchVO.getResponseTime())
+                                    .createQuery()
+                    );
+        }
+
+        List<MonitorAdvertisement> advertisements
+                = getJpaQuery(query, PhoneAdvertisement.class, pageable)
+                .setSort(sort)
+                .getResultList();
+
+        return new PageImpl<>(advertisements, pageable, advertisements.size());
     }
 
     private<T> FullTextQuery getJpaQuery(Query luceneQuery, Class<T> object, Pageable pageable) {
