@@ -32,6 +32,11 @@ public class UserPersonalInformationServiceImpl implements UserPersonalInformati
     }
 
     @Override
+    public UserPersonalInformation getById(Long id) {
+        return getUserPersonalInformationById(id);
+    }
+
+    @Override
     public UserPersonalInformationVO getUserPersonalInformation(String username) {
         User user = getUser(username);
 

@@ -63,7 +63,7 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
 
     @Override
     public Page<ConsoleAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        User user = super.getUserById(id);
+        User user = super.getUserByPersonalInformationId(id);
         return consoleAdvertisementRepository
                 .findAllByUser(pageable, user)
                 .map(this::convertToVOWithImage);

@@ -63,7 +63,7 @@ public class ExternalDeviceAdvertisementServiceImpl
 
     @Override
     public Page<ExternalDeviceAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        User user = super.getUserById(id);
+        User user = super.getUserByPersonalInformationId(id);
         return externalDeviceRepository
                 .findAllByUser(pageable, user)
                 .map(this::convertToVOWithImage);

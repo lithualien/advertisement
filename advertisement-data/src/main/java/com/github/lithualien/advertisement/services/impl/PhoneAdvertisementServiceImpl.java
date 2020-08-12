@@ -61,7 +61,7 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
 
     @Override
     public Page<PhoneAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        User user = super.getUserById(id);
+        User user = super.getUserByPersonalInformationId(id);
         return repository.findAllByUser(pageable, user)
                 .map(this::convertToVOWithImage);
     }

@@ -68,6 +68,12 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
                 });
     }
 
+    protected User getUserByPersonalInformationId(Long id) {
+        return userPersonalInformationService
+                .getById(id)
+                .getUser();
+    }
+
     protected User getUserById(Long id) {
         return userRepository
                 .findById(id)

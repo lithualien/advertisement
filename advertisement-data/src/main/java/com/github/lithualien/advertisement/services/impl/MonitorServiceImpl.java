@@ -60,7 +60,7 @@ public class MonitorServiceImpl extends AbstractAdvertisementService<MonitorAdve
 
     @Override
     public Page<MonitorAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        User user = super.getUserById(id);
+        User user = super.getUserByPersonalInformationId(id);
         return monitorAdvertisementRepository
                 .findAllByUser(pageable, user)
                 .map(this::convertToVOWithImage);

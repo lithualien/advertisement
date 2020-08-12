@@ -4,6 +4,7 @@ import com.github.lithualien.advertisement.converters.ComputerAdvertisementConve
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.User;
+import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
@@ -79,7 +80,8 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
 
     @Override
     public Page<ComputerAdvertisementWithImageVO> findByUserId(Pageable pageable, Long id) {
-        User user = super.getUserById(id);
+
+        User user = super.getUserByPersonalInformationId(id);
         return computerAdvertisementRepository.findAllByUser(pageable, user)
                 .map(this::convertToVOWithImage);
     }
