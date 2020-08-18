@@ -6,6 +6,7 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisem
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public interface ConsoleAdvertisementService {
 
@@ -25,7 +26,7 @@ public interface ConsoleAdvertisementService {
 
     ConsoleAdvertisementWithImageVO update(ConsoleAdvertisementVO consoleAdvertisementVO, String username);
 
-    void delete(Long id, String username);
+    void delete(Long id, String username, Authentication authentication);
 
     void isAdvertisementCreator(ConsoleAdvertisement consoleAdvertisement, String username);
 }

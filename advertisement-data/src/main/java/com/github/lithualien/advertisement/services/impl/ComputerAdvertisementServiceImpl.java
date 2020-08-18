@@ -4,16 +4,17 @@ import com.github.lithualien.advertisement.converters.ComputerAdvertisementConve
 import com.github.lithualien.advertisement.models.ComputerAdvertisement;
 import com.github.lithualien.advertisement.models.SubCategory;
 import com.github.lithualien.advertisement.models.User;
-import com.github.lithualien.advertisement.models.UserPersonalInformation;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ComputerAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
@@ -29,10 +30,10 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
                                             ComputerAdvertisementRepository computerAdvertisementRepository,
                                             UserPersonalInformationService userPersonalInformationService,
                                             ComputerAdvertisementRepository computerAdvertisementRepository1,
-                                            SearchRepository searchRepository) {
+                                            SearchRepository searchRepository, UserService userService) {
 
         super(userRepository, cityRepository, subCategoryRepository, typeRepository,
-                computerAdvertisementRepository, userPersonalInformationService);
+                computerAdvertisementRepository, userPersonalInformationService, userService);
         this.computerAdvertisementRepository = computerAdvertisementRepository1;
         this.searchRepository = searchRepository;
     }
@@ -68,8 +69,8 @@ public class ComputerAdvertisementServiceImpl extends AbstractAdvertisementServi
     }
 
     @Override
-    public void delete(Long id, String username) {
-        super.abstractDelete(id, username);
+    public void delete(Long id, String username, Authentication authentication) {
+        super.abstractDelete(id, username, authentication);
     }
 
     @Override

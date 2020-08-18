@@ -5,7 +5,10 @@ import com.github.lithualien.advertisement.services.MonitorImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,7 +117,7 @@ public class MonitorAdvertisementController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete (@PathVariable("id") Long id, Authentication authentication) {
-        advertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName(), authentication);
     }
 
     @PostMapping("/images/upload")

@@ -7,6 +7,7 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisem
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public interface MonitorAdvertisementService {
 
@@ -27,7 +28,7 @@ public interface MonitorAdvertisementService {
 
     MonitorAdvertisementWithImageVO update(MonitorAdvertisementVO advertisementVO, String username);
 
-    void delete(Long id, String username);
+    void delete(Long id, String username, Authentication authentication);
 
     void isAdvertisementCreator(MonitorAdvertisement advertisement, String username);
 }

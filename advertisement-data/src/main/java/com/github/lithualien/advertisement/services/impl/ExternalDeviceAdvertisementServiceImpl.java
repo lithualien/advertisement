@@ -7,12 +7,14 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ExternalDeviceAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,10 +28,11 @@ public class ExternalDeviceAdvertisementServiceImpl
                                                   SubCategoryRepository subCategoryRepository,
                                                   TypeRepository typeRepository, SearchRepository searchRepository,
                                                   ExternalDeviceAdvertisementRepository externalDeviceRepository,
-                                                  UserPersonalInformationService userPersonalInformationService) {
+                                                  UserPersonalInformationService userPersonalInformationService,
+                                                  UserService userService) {
 
         super(userRepository, cityRepository, subCategoryRepository, typeRepository, externalDeviceRepository,
-                userPersonalInformationService);
+                userPersonalInformationService, userService);
 
         this.searchRepository = searchRepository;
         this.externalDeviceRepository = externalDeviceRepository;
@@ -93,8 +96,8 @@ public class ExternalDeviceAdvertisementServiceImpl
     }
 
     @Override
-    public void delete(Long id, String username) {
-        super.abstractDelete(id, username);
+    public void delete(Long id, String username, Authentication authentication) {
+        super.abstractDelete(id, username, authentication);
     }
 
     @Override

@@ -121,7 +121,7 @@ public class PhoneAdvertisementController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id, Authentication authentication) {
-        advertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName(), authentication);
     }
 
     @PostMapping("/images/upload")

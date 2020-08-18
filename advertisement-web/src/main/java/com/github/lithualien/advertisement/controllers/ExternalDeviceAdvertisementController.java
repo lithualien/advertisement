@@ -5,7 +5,6 @@ import com.github.lithualien.advertisement.services.ExternalDeviceImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -118,7 +117,7 @@ public class ExternalDeviceAdvertisementController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id, Authentication authentication) {
-        advertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName(), authentication);
     }
 
     @PostMapping("/images/upload")

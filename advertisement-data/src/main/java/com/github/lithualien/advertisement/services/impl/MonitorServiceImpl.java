@@ -7,12 +7,14 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.MonitorAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.MonitorAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,9 +26,9 @@ public class MonitorServiceImpl extends AbstractAdvertisementService<MonitorAdve
     public MonitorServiceImpl(UserRepository userRepository, CityRepository cityRepository, TypeRepository typeRepository,
                               SearchRepository searchRepository, SubCategoryRepository subcategoryRepository,
                               UserPersonalInformationService userPersonalInformationService,
-                              MonitorAdvertisementRepository monitorAdvertisementRepository) {
+                              MonitorAdvertisementRepository monitorAdvertisementRepository, UserService userService) {
         super(userRepository, cityRepository, subcategoryRepository, typeRepository, monitorAdvertisementRepository,
-                userPersonalInformationService);
+                userPersonalInformationService, userService);
 
         this.searchRepository = searchRepository;
         this.monitorAdvertisementRepository = monitorAdvertisementRepository;
@@ -88,8 +90,8 @@ public class MonitorServiceImpl extends AbstractAdvertisementService<MonitorAdve
     }
 
     @Override
-    public void delete(Long id, String username) {
-        super.abstractDelete(id, username);
+    public void delete(Long id, String username, Authentication authentication) {
+        super.abstractDelete(id, username, authentication);
     }
 
     @Override

@@ -7,12 +7,14 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.PhoneAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +27,11 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
                                          SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
                                          PhoneAdvertisementRepository phoneAdvertisementRepository,
                                          UserPersonalInformationService userPersonalInformationService,
-                                         SearchRepository searchRepository, PhoneAdvertisementRepository repository) {
+                                         SearchRepository searchRepository, PhoneAdvertisementRepository repository,
+                                         UserService userService) {
 
         super(userRepository, cityRepository, subCategoryRepository, typeRepository,
-                phoneAdvertisementRepository, userPersonalInformationService);
+                phoneAdvertisementRepository, userPersonalInformationService, userService);
         this.searchRepository = searchRepository;
         this.repository = repository;
     }
@@ -88,8 +91,8 @@ public class PhoneAdvertisementServiceImpl extends AbstractAdvertisementService<
     }
 
     @Override
-    public void delete(Long id, String username) {
-        super.abstractDelete(id, username);
+    public void delete(Long id, String username, Authentication authentication) {
+        super.abstractDelete(id, username, authentication);
     }
 
     @Override

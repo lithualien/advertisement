@@ -9,9 +9,12 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.models.superclass.Advertisement;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
+import com.github.lithualien.advertisement.vo.v1.AdminVO;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public abstract class AbstractAdvertisementService<T extends Advertisement> {
 
@@ -21,16 +24,18 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
     private final TypeRepository typeRepository;
     private final AdvertisementRepository<T> advertisementRepository;
     private final UserPersonalInformationService userPersonalInformationService;
+    private final UserService userService;
 
     protected AbstractAdvertisementService(UserRepository userRepository, CityRepository cityRepository,
                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
-                                           AdvertisementRepository<T> advertisementRepository, UserPersonalInformationService userPersonalInformationService) {
+                                           AdvertisementRepository<T> advertisementRepository, UserPersonalInformationService userPersonalInformationService, UserService userService) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.subCategoryRepository = subCategoryRepository;
         this.typeRepository = typeRepository;
         this.advertisementRepository = advertisementRepository;
         this.userPersonalInformationService = userPersonalInformationService;
+        this.userService = userService;
     }
 
     public Page<T> abstractAll(Pageable pageable) {
@@ -54,9 +59,17 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
         return advertisementRepository.save(object);
     }
 
-    public void abstractDelete(Long id, String username) {
+    public void abstractDelete(Long id, String username, Authentication authentication) {
         T advertisement = getAdvertisementById(id);
-        isAdvertisementCreator(advertisement, username);
+
+        try {
+            isAdvertisementCreator(advertisement, username);
+        } catch (NotContentCreatorException e) {
+            if(!isAdmin(authentication)) {
+                throw e;
+            }
+        }
+
         advertisementRepository.delete(advertisement);
     }
 
@@ -122,9 +135,13 @@ public abstract class AbstractAdvertisementService<T extends Advertisement> {
         }
     }
 
+    protected boolean isAdmin(Authentication authentication) {
+        AdminVO adminVO = userService.isAdmin(authentication);
+        return adminVO.getIsAdmin();
+    }
+
     protected void isAdvertisementCreator(T object, String username) {
-        if(!object.getUser().getUsername()
-                .equals(username)) {
+        if(!object.getUser().getUsername().equals(username)) {
             throw new NotContentCreatorException("User did not create the advertisement.");
         }
     }

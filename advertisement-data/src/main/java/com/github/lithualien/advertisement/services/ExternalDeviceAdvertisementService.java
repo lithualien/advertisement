@@ -6,6 +6,7 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdv
 import com.github.lithualien.advertisement.vo.v1.advertisement.ExternalDeviceAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public interface ExternalDeviceAdvertisementService {
 
@@ -26,7 +27,7 @@ public interface ExternalDeviceAdvertisementService {
 
     ExternalDeviceAdvertisementWithImageVO update(ExternalDeviceAdvertisementVO advertisementVO, String username);
 
-    void delete(Long id, String username);
+    void delete(Long id, String username, Authentication authentication);
 
     void isAdvertisement(ExternalDeviceAdvertisement advertisement, String username);
 }

@@ -7,12 +7,14 @@ import com.github.lithualien.advertisement.models.User;
 import com.github.lithualien.advertisement.repositories.*;
 import com.github.lithualien.advertisement.services.ConsoleAdvertisementService;
 import com.github.lithualien.advertisement.services.UserPersonalInformationService;
+import com.github.lithualien.advertisement.services.UserService;
 import com.github.lithualien.advertisement.vo.v1.UserPersonalInformationVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,10 +28,10 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
                                            SubCategoryRepository subCategoryRepository, TypeRepository typeRepository,
                                            UserPersonalInformationService userPersonalInformationService,
                                            ConsoleAdvertisementRepository consoleAdvertisementRepository,
-                                           SearchRepository searchRepository,
+                                           SearchRepository searchRepository, UserService userService,
                                            ConsoleAdvertisementRepository consoleAdvertisementRepository1) {
         super(userRepository, cityRepository, subCategoryRepository, typeRepository, consoleAdvertisementRepository,
-                userPersonalInformationService);
+                userPersonalInformationService, userService);
 
         this.searchRepository = searchRepository;
         this.consoleAdvertisementRepository = consoleAdvertisementRepository1;
@@ -92,8 +94,8 @@ public class ConsoleAdvertisementServiceImpl extends AbstractAdvertisementServic
     }
 
     @Override
-    public void delete(Long id, String username) {
-        super.abstractDelete(id, username);
+    public void delete(Long id, String username, Authentication authentication) {
+        super.abstractDelete(id, username, authentication);
     }
 
     @Override

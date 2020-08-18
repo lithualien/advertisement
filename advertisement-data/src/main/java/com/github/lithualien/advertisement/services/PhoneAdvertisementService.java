@@ -6,6 +6,7 @@ import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisemen
 import com.github.lithualien.advertisement.vo.v1.advertisement.PhoneAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public interface PhoneAdvertisementService {
 
@@ -25,7 +26,7 @@ public interface PhoneAdvertisementService {
 
     PhoneAdvertisementWithImageVO update(PhoneAdvertisementVO phoneAdvertisementVO, String username);
 
-    void delete(Long id, String username);
+    void delete(Long id, String username, Authentication authentication);
 
     void isAdvertisementCreator(PhoneAdvertisement phoneAdvertisement, String username);
 }

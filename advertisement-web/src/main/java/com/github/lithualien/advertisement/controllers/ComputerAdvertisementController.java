@@ -5,7 +5,6 @@ import com.github.lithualien.advertisement.services.ComputerImageService;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementSearchVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementVO;
 import com.github.lithualien.advertisement.vo.v1.advertisement.ComputerAdvertisementWithImageVO;
-import com.github.lithualien.advertisement.vo.v1.advertisement.ConsoleAdvertisementWithImageVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -119,7 +118,7 @@ public class ComputerAdvertisementController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id, Authentication authentication) {
-        advertisementService.delete(id, authentication.getName());
+        advertisementService.delete(id, authentication.getName(), authentication);
     }
 
     @PostMapping("/images/upload")
