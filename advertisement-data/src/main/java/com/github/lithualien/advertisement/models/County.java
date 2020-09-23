@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "counties")
+@Table(name = "counties", schema = "advertisement")
 public class County extends BaseEntity {
 
     private String county;

@@ -1,9 +1,6 @@
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE `categories` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `category` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`)
-)
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_lithuanian_ci;
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories (
+  id BIGSERIAL,
+  category VARCHAR(255) NULL,
+  PRIMARY KEY (id)
+);

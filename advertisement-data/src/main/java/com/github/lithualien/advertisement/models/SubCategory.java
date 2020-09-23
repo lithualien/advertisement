@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sub_categories")
+@Table(name = "sub_categories", schema = "advertisement")
 public class SubCategory extends BaseEntity {
 
     @Field(index = Index.YES, analyze = Analyze.NO, store = Store.NO)

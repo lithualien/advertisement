@@ -1,9 +1,6 @@
-DROP TABLE IF EXISTS `types`;
-CREATE TABLE `types` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `type` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`)
-  )
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_lithuanian_ci;
+DROP TABLE IF EXISTS types;
+CREATE TABLE types (
+  id BIGSERIAL,
+  type VARCHAR(255),
+  PRIMARY KEY (id)
+);

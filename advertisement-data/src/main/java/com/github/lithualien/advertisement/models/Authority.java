@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "authorities")
+@Table(name = "authorities", schema = "advertisement")
 public class Authority extends BaseEntity implements GrantedAuthority {
 
     private String authority;

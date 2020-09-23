@@ -1,17 +1,14 @@
 DROP TABLE IF EXISTS oauth_client_details;
-CREATE TABLE oauth_client_details (
-  client_id VARCHAR(255) PRIMARY KEY,
-  resource_ids VARCHAR(255),
-  client_secret VARCHAR(255),
-  scope VARCHAR(255),
-  authorized_grant_types VARCHAR(255),
-  web_server_redirect_uri VARCHAR(255),
-  authorities VARCHAR(255),
+create table oauth_client_details (
+  client_id VARCHAR(256) PRIMARY KEY,
+  resource_ids VARCHAR(256),
+  client_secret VARCHAR(256),
+  scope VARCHAR(256),
+  authorized_grant_types VARCHAR(256),
+  web_server_redirect_uri VARCHAR(256),
+  authorities VARCHAR(256),
   access_token_validity INTEGER,
   refresh_token_validity INTEGER,
   additional_information VARCHAR(4096),
-  autoapprove VARCHAR(255)
-)
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_lithuanian_ci;
+  autoapprove VARCHAR(256)
+);

@@ -1,7 +1,5 @@
 package com.github.lithualien.advertisement.models;
 
-import com.amazonaws.services.ec2.model.ImageState;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.lithualien.advertisement.models.superclass.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "advertisement")
 public class User extends BaseEntity implements UserDetails {
 
     private String username;

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "types")
+@Table(name = "types", schema = "advertisement")
 public class Type extends BaseEntity {
 
     private String type;

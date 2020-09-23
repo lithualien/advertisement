@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "monitor_images")
+@Table(name = "monitor_images", schema = "advertisement")
 public class MonitorImage extends Image {
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.dozer.Mapping;
 import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Index;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "computer_advertisements")
+@Table(name = "computer_advertisements", schema = "advertisement")
 public class ComputerAdvertisement extends Advertisement {
 
     @Mapping("this")

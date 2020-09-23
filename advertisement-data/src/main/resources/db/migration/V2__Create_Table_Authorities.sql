@@ -1,9 +1,6 @@
-DROP TABLE IF EXISTS `authorities`;
-CREATE TABLE `authorities` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `authority` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_lithuanian_ci;
+DROP TABLE IF EXISTS authorities;
+CREATE TABLE authorities (
+  id BIGSERIAL,
+  authority varchar(255),
+  PRIMARY KEY (id)
+);

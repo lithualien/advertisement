@@ -1,12 +1,9 @@
 DROP TABLE IF EXISTS oauth_approvals;
-CREATE TABLE oauth_approvals (
-    userId VARCHAR(255),
-    clientId VARCHAR(255),
-    scope VARCHAR(255),
-    status VARCHAR(10),
-    expiresAt TIMESTAMP,
-    lastModifiedAt TIMESTAMP
-)
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_lithuanian_ci;
+create table oauth_approvals (
+	userId VARCHAR(256),
+	clientId VARCHAR(256),
+	scope VARCHAR(256),
+	status VARCHAR(10),
+	expiresAt TIMESTAMP,
+	lastModifiedAt TIMESTAMP
+);
